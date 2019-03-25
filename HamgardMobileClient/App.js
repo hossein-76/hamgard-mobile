@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {StyleSheet, View, Text, Button } from 'react-native';
+import {TextInput, StyleSheet, View, Text, Button } from 'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'; 
 
 class ArrivalScreen extends React.Component {
@@ -36,11 +36,37 @@ class ArrivalScreen extends React.Component {
 
 class LoginScreen extends React.Component
 {
+  constructor(props) {
+    super(props);
+    this.state = {UserName: '', PassWord: ''};
+  }
+
   render() 
   {
     return (
       <View style={styles.container}>
-        <Text>Log In</Text>
+        <Text>Login Page</Text>
+        <TextInput
+          style={{height: 40}}
+          placeholder="Username"
+          onChangeText={(text) => this.setState({UserName: text})}
+        />
+        <TextInput
+          style={{height: 40}}
+          placeholder="password"
+          onChangeText={(text) => this.setState({PassWord: text})}
+        />
+        <Button
+          title="Submit"
+          onPress=
+          {
+            () =>
+            {
+              alert(this.state.PassWord + this.state.UserName)
+
+            }
+          }
+        />
       </View>
     );
   }
@@ -51,8 +77,44 @@ class SignUpScreen extends React.Component
   render() 
   {
     return (
-      <View style={styles.container}>
-        <Text>Sign Up</Text>
+      <View style={ styles.container}>
+        <Text>Sign Up Page</Text>
+        <TextInput
+          style={{height: 40}}
+          placeholder="Username"
+          onChangeText={(text) => this.setState({UserName: text})}
+        />
+        <TextInput
+          style={{height: 40}}
+          placeholder="password"
+          onChangeText={(text) => this.setState({PassWord: text})}
+        />
+        <View style = {{ flexDirection: 'row',alignItems: 'center', justifyContent: 'center' }}>
+          <Button
+            title="Submit"
+            onPress=
+            {
+              () =>
+              {
+                alert(this.state.PassWord + this.state.UserName)
+
+              }
+            }
+          />
+          <Button
+            title="Cancel"
+            onPress=
+            {
+              () =>
+              {
+                this.props.navigation.goBack();
+
+              }
+            }
+          />
+        </View>
+        <Text>already have an account?</Text>
+        <Text style = {{color: 'blue'}} onPress = {() => this.props.navigation.navigate('Login')} >Log in</Text>
       </View>
     );
   }
@@ -65,6 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
 
 
