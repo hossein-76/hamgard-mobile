@@ -41,6 +41,23 @@ class LoginScreen extends React.Component
     this.state = {UserName: '', PassWord: ''};
   }
 
+  OnSubmit()
+  {
+    var url = 'https://example.com/profile';
+    var data = {username: this.state.UserName, password:this.state.PassWord};
+
+    fetch(url, 
+    {
+      method: 'POST', 
+      body: JSON.stringify(data),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then(response => console.log('Success:', JSON.stringify(response)))
+    .catch(error => console.error('Error:', error));
+  }
+
   render() 
   {
     return (
@@ -62,7 +79,7 @@ class LoginScreen extends React.Component
           {
             () =>
             {
-              alert(this.state.PassWord + this.state.UserName)
+              this.OnSubmit();
 
             }
           }
@@ -83,7 +100,7 @@ class SignUpScreen extends React.Component
     fetch(url, 
     {
       method: 'POST', 
-      body: JSON.stringify(data), // data can be `string` or {object}!
+      body: JSON.stringify(data),
       headers:{
         'Content-Type': 'application/json'
       }
