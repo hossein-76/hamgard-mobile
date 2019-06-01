@@ -6,6 +6,8 @@ import styles from '../Styles/Form';
 
 var STORAGE_KEY = 'id_token';
 
+
+
  class LoginScreen extends React.Component
  {
   constructor(props) {

@@ -1,13 +1,22 @@
 import React from 'react';
-import {TextInput, StyleSheet, View, Text, Button } from 'react-native';
+import {TextInput, StyleSheet,TouchableHighlight, View, Text, Image } from 'react-native';
+import { Container, Header, Content, Button  } from 'native-base';
 
 class ArrivalScreen extends React.Component {
+
     render() {
       return (
-        <View style={styles.container}>
-          <Text>Arrival!</Text>
-          <Button
-            title="Log In"
+        
+        <Container>
+        
+        
+          <View style = {styles.container}>
+          <View>
+          
+          <Image source={require('../images/Arrival-logo.jpg')} />
+
+          </View>
+        <Button block rounded style = {styles.button}
             onPress=
             {
               () =>
@@ -15,10 +24,11 @@ class ArrivalScreen extends React.Component {
                 this.props.navigation.navigate('Login')
               }
             }
-          />
-  
-          <Button
-            title="Sign Up"
+            underlayColor='#99d9f4'
+          >
+          <Text style = {styles.buttonText}>ورود</Text>
+          </Button>
+          <Button block rounded style = {styles.button}
             onPress=
             {
               () =>
@@ -26,21 +36,44 @@ class ArrivalScreen extends React.Component {
                 this.props.navigation.navigate('SignUp')
               }
             }
-          />
+            underlayColor='#99d9f4'
+          >
+          <Text style = {styles.buttonText}>ثبت‌نام</Text>
+          </Button>
         </View>
+      </Container>
+      
       );
     }
   }
 
   const styles = StyleSheet.create({
   container: {
-    alignItems: 'stretch',
+    flex:1,
+    alignItems: 'center',
+    flexDirection: 'column',
     justifyContent: 'center',
-    marginTop: 50,
-    padding: 20,
+    marginTop: -200,
+    padding: 40,
     backgroundColor: '#ffffff',
   },
-
+  title: {
+    fontSize: 30,
+    alignSelf: 'center',
+    marginBottom: 30
+  },
+  button: {
+    backgroundColor: '#BC1D39',
+    borderColor: '#48BBEC',
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
 });
 
   export default ArrivalScreen;

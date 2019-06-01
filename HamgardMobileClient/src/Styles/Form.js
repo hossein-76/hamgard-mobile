@@ -4,6 +4,8 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
+        flexDirection: 'column',
         justifyContent: 'center',
         marginTop: 50,
         padding: 20,
@@ -21,7 +23,7 @@ const styles = StyleSheet.create({
       },
       button: {
         height: 36,
-        backgroundColor: '#48BBEC',
+        backgroundColor: '#BC1D39',
         borderColor: '#48BBEC',
         borderWidth: 1,
         borderRadius: 8,

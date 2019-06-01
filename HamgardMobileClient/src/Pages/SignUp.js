@@ -1,9 +1,13 @@
 import React from 'react';
-import {TextInput, StyleSheet, View, Text, Button } from 'react-native';
+import {TextInput,TouchableHighlight, StyleSheet, View, Text } from 'react-native';
+import {Button} from 'nachos-ui';
 import JWTController from '../Controllers/AuthenticationController';
-import styles from '../Styles/Form';
+import FormStyles from '../Styles/Form';
+import ButtonStyles from '../Styles/Buttons'
+
 
 var STORAGE_KEY = 'id_token';
+const btnStyle = { margin: 15 }
 
 class SignUpScreen extends React.Component
 {
@@ -41,61 +45,66 @@ class SignUpScreen extends React.Component
   render() 
   {
     return (
-      <View style={ styles.container}>
-        <Text>Sign Up Page</Text>
-        <TextInput
-          style={{height: 40}}
-          placeholder="Username"
-          onChangeText={(text) => this.setState({UserName: text})}
-        />
-        <TextInput
-          style={{height: 40}}
-          placeholder="E-mail"
-          onChangeText={(text) => this.setState({email: text})}
-        />
-         <TextInput
-          style={{height: 40}}
-          placeholder="Phone Number"
-          onChangeText={(text) => this.setState({phoneNumber: text})}
-        />
-         <TextInput
-          style={{height: 40}}
-          placeholder="password"
-          secureTextEntry = {true}
-          onChangeText={(text) => this.setState({PassWord: text})}
-        />
-         <TextInput
-          style={{height: 40}}
-          placeholder="Confirm password"
-          secureTextEntry = {true}
-          onChangeText={(text) => this.setState({PassWord: text})}
-        />
-        <View style = {styles.container}>
-          <Button
-            title="Submit"
+      <View style={ FormStyles.container}>
+          <Text>Sign Up Page</Text>
+          <TextInput
+            style={{height: 40}}
+            placeholder="Username"
+            onChangeText={(text) => this.setState({UserName: text})}
+          />
+          <TextInput
+            style={{height: 40}}
+            placeholder="E-mail"
+            onChangeText={(text) => this.setState({email: text})}
+          />
+          <TextInput
+            style={{height: 40}}
+            placeholder="Phone Number"
+            onChangeText={(text) => this.setState({phoneNumber: text})}
+          />
+          <TextInput
+            style={{height: 40}}
+            placeholder="password"
+            secureTextEntry = {true}
+            onChangeText={(text) => this.setState({PassWord: text})}
+          />
+          <TextInput
+            style={{height: 40}}
+            placeholder="Confirm password"
+            secureTextEntry = {true}
+            onChangeText={(text) => this.setState({PassWord: text})}
+          />
+        <View >
+        
+        <TouchableHighlight style = {ButtonStyles.button}
             onPress=
             {
               () =>
               {
                 this.OnSubmit();
-
               }
             }
-          />
-          <Button
-            title="Cancel"
+            underlayColor='#99d9f4'
+          >
+          <Text style = {ButtonStyles.buttonText}>ثبت‌نام</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight style = {ButtonStyles.button}
             onPress=
             {
               () =>
               {
                 this.props.navigation.goBack();
-
               }
             }
-          />
+            underlayColor='#99d9f4'
+          >
+          <Text style = {ButtonStyles.buttonText}>بازگشت</Text>
+          </TouchableHighlight>
+          <Text>already have an account?</Text>
+           <Text style = {{color: 'blue'}} onPress = {() => this.props.navigation.navigate('Login')} >Log in</Text>
         </View>
-        <Text>already have an account?</Text>
-        <Text style = {{color: 'blue'}} onPress = {() => this.props.navigation.navigate('Login')} >Log in</Text>
+        
       </View>
     );
   }
