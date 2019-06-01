@@ -4,12 +4,18 @@ import { Container, Header, Content, Button  } from 'native-base';
 
 class ArrivalScreen extends React.Component {
 
+    static navigationOptions = ({navigation}) => {
+        return {
+          header:null
+        }
+    }
+
     render() {
       return (
         
         <Container>
         
-        
+          <Header/>
           <View style = {styles.container}>
           <View>
           
@@ -53,7 +59,7 @@ class ArrivalScreen extends React.Component {
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
-    marginTop: -200,
+    marginTop: -150,
     padding: 40,
     backgroundColor: '#ffffff',
   },
@@ -65,6 +71,7 @@ class ArrivalScreen extends React.Component {
   button: {
     backgroundColor: '#BC1D39',
     borderColor: '#48BBEC',
+    height: 60,
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'

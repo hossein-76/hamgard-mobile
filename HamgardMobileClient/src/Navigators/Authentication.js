@@ -8,7 +8,7 @@ const Authentication = createStackNavigator({
     Login: LoginScreen,
     SignUp: SignUpScreen
   }, {
-      initialRouteName: 'Arrival'
+      initialRouteName: 'Arrival',
   });
 
 
