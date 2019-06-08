@@ -9,9 +9,11 @@ const Authentication = createStackNavigator({
     SignUp: SignUpScreen
   }, {
       initialRouteName: 'Arrival',
+      headerMode: 'screen'
+
   });
 
 
 
 
-export default createAppContainer(Authentication);
+export default Authentication;

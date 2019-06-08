@@ -2,13 +2,13 @@
 import React from 'react';
 import {TextInput, StyleSheet, View, Text, Button } from 'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'; 
-import Auth from './src/Navigators/Authentication';
+import Global from './src/Navigators/Global';
 
 
 class App extends React.Component {
   render() {
     return (
-        <Auth/>
+        <Global/>
     );
   }
 }
