@@ -17,7 +17,14 @@ class JWTController extends React.Component
     this._bootstrapAsync();
   }
     
-    
+    static async DeleteToken()
+    {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, null);
+      } catch (error) {
+        console.log('AsyncStorage error: ' + error.message);
+      }
+    }
 
     static async OnValueChange(item, selectedValue) {
         try {
