@@ -29,7 +29,7 @@ class JWTController extends React.Component
   
     _bootstrapAsync = async () => {
       const userToken = await AsyncStorage.getItem(STORAGE_KEY);
-      this.props.navigation.navigate(userToken ?  'MainSession' :'Authentication');
+      this.props.navigation.navigate(userToken ?  'MainSession' : 'Authentication');
     };
   
     render() {

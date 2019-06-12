@@ -5,8 +5,10 @@ import { createAppContainer, createStackNavigator, StackActions, NavigationActio
 import Global from './src/Navigators/Global';
 
 
+
 class App extends React.Component {
   render() {
+    
     return (
         <Global/>
     );
