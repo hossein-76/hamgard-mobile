@@ -26,6 +26,12 @@ class JWTController extends React.Component
       }
     }
 
+    static async CheckIfTokenExists()
+    {
+      const userToken = await AsyncStorage.getItem(STORAGE_KEY);
+      return userToken;
+    }
+
     static async OnValueChange(item, selectedValue) {
         try {
           await AsyncStorage.setItem(item, selectedValue);
