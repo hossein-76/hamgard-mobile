@@ -1,6 +1,7 @@
 import React from 'react';
 import {TextInput, StyleSheet,TouchableHighlight, View, Text, Image } from 'react-native';
 import { Container, Header, Content, Button  } from 'native-base';
+import { TextFa} from '../Components/TextFa';
 
 class ArrivalScreen extends React.Component {
 
@@ -17,11 +18,12 @@ class ArrivalScreen extends React.Component {
         
           <Header/>
           <View style = {styles.container}>
-          <View>
-          
-          <Image source={require('../images/Arrival-logo.jpg')} />
+            <View>
+            
+              <Image source={require('../images/Arrival-logo.jpg')} />
 
-          </View>
+            </View>
+
         <Button block rounded style = {styles.button}
             onPress=
             {
@@ -32,8 +34,8 @@ class ArrivalScreen extends React.Component {
             }
             underlayColor='#99d9f4'
           >
-          <Text style = {styles.buttonText}>ورود</Text>
-          </Button>
+            <TextFa  style={styles.buttonText}>ورود</TextFa>
+        </Button>
           <Button block rounded style = {styles.button}
             onPress=
             {
@@ -44,7 +46,7 @@ class ArrivalScreen extends React.Component {
             }
             underlayColor='#99d9f4'
           >
-          <Text style = {styles.buttonText}>ثبت‌نام</Text>
+          <TextFa  style={styles.buttonText}>ثبت‌نام</TextFa>
           </Button>
         </View>
       </Container>
@@ -77,7 +79,8 @@ class ArrivalScreen extends React.Component {
     justifyContent: 'center'
   },
   buttonText: {
-    fontSize: 18,
+    color: '#ffffff',
+    fontSize: 20,
     color: 'white',
     alignSelf: 'center'
   },

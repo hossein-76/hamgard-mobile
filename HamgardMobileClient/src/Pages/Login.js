@@ -3,8 +3,9 @@ import {TextInput,TouchableHighlight, StyleSheet, View, Text } from 'react-nativ
 import { Container, Header, Content, Button, Form, Item, Input, Label  } from 'native-base';
 import JWTController from '../Controllers/AuthenticationController';
 import FormStyles from '../Styles/Form';
-import ButtonStyles from '../Styles/Buttons'
-import HeaderStyles from '../Styles/Headers'
+import ButtonStyles from '../Styles/Buttons';
+import HeaderStyles from '../Styles/Headers';
+import { TextFa} from '../Components/TextFa';
 
 var STORAGE_KEY = 'id_token';
 
@@ -25,7 +26,7 @@ var PassWord = "";
 
   static navigationOptions = ({navigation}) => {
     return {
-      headerRight:<View><Text style = {HeaderStyles.TitleRight}>ورود</Text></View>,
+      headerRight:<View><TextFa  style={HeaderStyles.TitleRight}>ثبت‌نام</TextFa></View>,
       headerStyle: {
         backgroundColor: '#BC1D39',
       },
@@ -56,8 +57,8 @@ var PassWord = "";
      }
 
 
-    var url = 'http://127.0.0.1:8000/user/api/login/';
-    var data = {username: this.state.UserName, password:this.state.PassWord};
+    var url = 'http://172.18.218.231:8000/user/api/login/';
+    var data = {username: this.state.UserName, password:this.state.PassWord, remember_me:false};
 
    
     fetch(url, 
@@ -79,10 +80,10 @@ var PassWord = "";
 
       <Container> 
         <Content>
-          <View style = {{...FormStyles.Container, marginTop:200}}>
+          <View style = {{...FormStyles.Container}}>
             <Form style = {FormStyles.inputContainer}>
               <Item stackedLabel error={this.state.UserNameInputValid} style={FormStyles.stackedLabelItem}>
-                <Label style = {FormStyles.label}>نام‌ کاربری</Label>
+                <Label style={FormStyles.label}><TextFa>نام کاربری</TextFa></Label>
                 <Input style={FormStyles.input}
                  onChangeText={(text) => {
                    UserName = text;
@@ -91,7 +92,7 @@ var PassWord = "";
                    }}/>
               </Item>
               <Item error={this.state.PassWordInputValid} style={FormStyles.stackedLabelItem} stackedLabel>
-                <Label style = {FormStyles.label}>کلمه‌عبور</Label>
+                <Label style={FormStyles.label}><TextFa>کلمه عبور</TextFa></Label>
                 <Input style={FormStyles.input} secureTextEntry = {true} 
                 onChangeText={(text) => {
                   PassWord = text;
@@ -110,7 +111,7 @@ var PassWord = "";
                   }
                   underlayColor='#99d9f4'
                 >
-                <Text style = {ButtonStyles.buttonText}>ثبت‌نام</Text>
+                <TextFa style = {ButtonStyles.buttonText}>ورود</TextFa>
               </Button>
               <Button block rounded style = {FormStyles.button}
                 onPress=
@@ -122,7 +123,7 @@ var PassWord = "";
                 }
                 underlayColor='#99d9f4'
               >
-              <Text style = {ButtonStyles.buttonText}>بازگشت</Text>
+              <TextFa style = {ButtonStyles.buttonText}>بازگشت</TextFa>
             </Button>
             </View>
           </View>
@@ -132,30 +133,7 @@ var PassWord = "";
           </View>
         </Content>
       </Container>
-      // <View style={}>
-      //   <Text>Login Page</Text>
-      //   <TextInput
-      //     style={{height: 40}}
-      //     placeholder="Username"
-      //     onChangeText={(text) => this.setState({UserName: text})}
-      //   />
-      //   <TextInput
-      //     style={{height: 40}}
-      //     placeholder="password"
-      //     onChangeText={(text) => this.setState({PassWord: text})}
-      //   />
-      //   <Button
-      //     title="Submit"
-      //     onPress=
-      //     {
-      //       () =>
-      //       {
-      //         this.OnSubmit();
-
-      //       }
-      //     }
-      //   />
-      // </View>
+     
     );
   }
 }

@@ -124,13 +124,12 @@ class SignUpScreen extends React.Component
 
 
       
-       var url = 'http://127.0.0.1:8000/user/api/signup/'; 
+       var url = 'http://172.18.218.231:8000/user/api/signup/'; 
 
        var data = {username: this.state.UserName,
-         PassWord:this.state.PassWord,
-         PassWordConfirmation:this.state.PassWordConfirmation,
+         password:this.state.PassWord,
          email:this.state.email,
-         phoneNumber:this.state.phoneNumber};
+         phone_number:this.state.phoneNumber};
 
         fetch(url, 
           {
