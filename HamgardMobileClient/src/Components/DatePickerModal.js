@@ -47,20 +47,19 @@ class DatePickerModal extends React.Component
                     <PersianCalendarPicker
                         onDateChange={async (date) =>
                             {
-                                await this.setState({ SelectedDate: date });
-                                alert(this.state.SelectedDate)
+                                this.setState({SelectedDate: date})
                             }
                          
                         }
                         /> 
                     <View style={{marginTop:'5%' ,flexDirection:'row', justifyContent:'flex-end', paddingRight: '2%'}}>
                     <Button transparent style={{marginRight:'5%', borderColor:0}} onPress={() => {
-                            this.Close();
+                            this.props.OnCancelClick()
                         }}>
                         <TextFa style={{color: '#5555ff'}}>cancel</TextFa>  
                     </Button>
                     <Button transparent style={{ borderColor:0}} onPress={() => {
-                        this.props.visible = false;
+                            this.props.GetDate(this.state.SelectedDate)
                         }}>
                         <TextFa style={{color: '#5555ff'}}>ok</TextFa>  
                     </Button>

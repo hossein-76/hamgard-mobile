@@ -5,7 +5,6 @@ import {  DatePicker, Container, Header, Content, Button, Textarea, Form, Item, 
 import ImagePicker from 'react-native-image-picker';
 //import Modal from 'react-native-modal';
 import StepIndicator from 'react-native-step-indicator';
-import PersianDatePicker from 'react-native-persian-date-picker';
 import PersianCalendarPicker from 'react-native-persian-calendar-picker';
 import JWTController from '../Controllers/AuthenticationController';
 import FormStyles from '../Styles/Form';
@@ -51,6 +50,7 @@ class GroupCreationScreen extends React.Component {
         super(props);
         this.state = {
           Step:2,
+          DateToChoose: null,
           modalVisible: false,
           StartHour: 'hh',
           StartMinute: 'mm',
@@ -61,7 +61,9 @@ class GroupCreationScreen extends React.Component {
         };
       }
 
-
+      CloseModal=() => {
+        this.setState({modalVisible: false})
+      }
     
 
     static navigationOptions = ({navigation}) => {
@@ -104,9 +106,16 @@ class GroupCreationScreen extends React.Component {
       this.setState({EndMinute: EndTime.minute});
     }
 
-    async OnEndDatePickerClick()
+    async OnPickADate(date)
     {
-      this.setModalVisible(true);
+      if(this.state.DateToChoose == 'Start')
+      {
+        this.setState({StartDate: date})
+      }
+      else if(this.state.DateToChoose == 'End')
+      {
+        this.setState({EndDate: date})
+      }
     }
     
     async PickATime()
@@ -174,11 +183,17 @@ class GroupCreationScreen extends React.Component {
                                       this.OnStartTimePickerClick();
                                     }
                                   } ><TextFa>{this.state.StartHour + ':' + this.state.StartMinute}</TextFa></Button>
-                                  {/* <PersianCalendarPicker
-                                    onDateChange={this.onDateChange}
-                                  /> */}
+                                    <Button style={styles.TimePicker} onPress=
+                                    {
+                                      async () =>
+                                      {
+                                        this.setState({DateToChoose:'Start'})
+                                        this.setModalVisible(true);
+                                      }
+                                    } ><TextFa>{this.state.StartDate == null ? 'YYYY-MM-DD' : this.state.StartDate.format('YYYY-MM-DD')}</TextFa></Button>
                                   <TextFa style={{marginTop:'2%'}}> زمان شروع: </TextFa>
                               </View>
+                              
                               <View style = {{flexDirection:'row'}}>
                                 <Button style={styles.TimePicker} onPress=
                                   {
@@ -188,15 +203,39 @@ class GroupCreationScreen extends React.Component {
                                     }
                                   } ><TextFa>{this.state.EndHour + ':' + this.state.EndMinute}</TextFa></Button>
                                    <Button style={styles.TimePicker} onPress=
-                                  {
-                                    async () =>
                                     {
-                                      this.OnEndDatePickerClick();
-                                    }
-                                  } ><TextFa>{this.state.EndDate}</TextFa></Button>
+                                      async () =>
+                                      {
+                                        this.setState({DateToChoose:'End'})
+                                        this.setModalVisible(true);
+                                      }
+                                    } ><TextFa>{this.state.EndDate == null ? 'YYYY-MM-DD' : this.state.EndDate.format('YYYY-MM-DD')}</TextFa></Button>
                                   
                                   
                                   <TextFa style={{marginTop:'2%'}}> زمان پایان: </TextFa>
+                              </View>
+
+                              <View style = {{flexDirection:'row', justifyContent:'space-around', alignSelf:'stretch',marginTop:'5%'}}>
+                                
+                                   <Button style={{...styles.button, backgroundColor:'#aaaaaa'}} onPress=
+                                    {
+                                      () =>
+                                      {
+                                        this.setState({StartDate: null});
+                                        this.setState({EndDate: null});
+                                        this.setState({StartTime : null});
+                                        this.setState({EndTime: null});
+                                        this.setState({Step: 1})
+                                      }
+                                    } ><TextFa>مرحله قبل</TextFa></Button>
+                                    <Button style={styles.button} onPress=
+                                  {
+                                    () =>
+                                    {
+                                      this.setState({Step: 3})
+                                    }
+                                  } ><TextFa style={{color:'#ffffff'}}>مرحله بعد</TextFa></Button>
+                                  
                               </View>
                             </View>
                             <View style={{flex:1, height:WindowSize.height * 0.3}}>
@@ -208,7 +247,17 @@ class GroupCreationScreen extends React.Component {
                                     />
                                   </View>
                           </View>
-                          <DatePickerModal visible={this.state.modalVisible}/>
+                          <DatePickerModal visible={this.state.modalVisible} 
+                            OnCancelClick = {this.CloseModal}
+                            GetDate=
+                            {
+                              async (date) =>
+                              {
+                                await this.OnPickADate(date);
+                                this.CloseModal()
+                              }
+                            }
+                          />
             </Container>
         
         );
@@ -247,12 +296,12 @@ class GroupCreationScreen extends React.Component {
     flex:11,
     backgroundColor:'#ffffff',
     width: WindowSize.width * 0.8,
+    height: WindowSize.height * 0.25,
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     marginTop: '30%',
     borderRadius:20,
-    marginBottom: '49%',
     marginRight:'5%',
     paddingTop:'10%',
     padding: '5%',
@@ -275,9 +324,9 @@ class GroupCreationScreen extends React.Component {
   button: {
     backgroundColor: '#BC1D39',
     borderColor: '#48BBEC',
-    width:100,
-    height: 60,
-    marginBottom: 10,
+    width:WindowSize.width * 0.3,
+    borderRadius:10,
+    height: WindowSize.height * 0.05,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
