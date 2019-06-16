@@ -20,20 +20,25 @@ class MainScreen extends React.Component
     };
   }
 
-  closeDrawer = () => {
-      this._drawer._root.close();
-  }
-  openDrawer = () => {
-      alert('open');
-      this._drawer._root.open();
-  }
+ 
+ 
 
   
 
   static navigationOptions = ({navigation}) => {
     return {
-      headerRight:<View>
-                    <HeaderTitle>صفحه اصلی</HeaderTitle>
+      headerRight:<View flexDirection={'row'}>
+                    
+                    <TextFa style = {HeaderStyles.TitleRight}>صفحه اصلی</TextFa>
+                    <Button block style={{backgroundColor: '#BC1D39',width:50}} onPress=
+                    {
+                      () =>
+                      {
+                        // this.openDrawer();
+                      }
+                    }>
+                    <Image style={{width:50, height:50}} source={require('../../assets/images/Drawer(2).png')}/>
+                    </Button>
                   </View>,
       
       headerStyle: {
@@ -49,20 +54,20 @@ class MainScreen extends React.Component
   //not completed
   async logOut()
   {
-    var success = false;
+    var success = true;
+    var url = 'http://172.18.218.231:8000/user/api/logout/'; 
+    const userToken = JWTController.CheckIfTokenExists();
 
-    const userToken = await AsyncStorage.getItem(STORAGE_KEY);
-
-    fetch(url, 
-      {
-        method: 'POST',
-        headers:{
-          'token': 'token ' + userToken,
-        }
-      }).then(res => res.json())
-      .then((responseData) => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
-      .then(response => {console.log('Success:', JSON.stringify(response));success = true} )
-      .catch(error => console.error('Error:', error));
+    // fetch(url, 
+    //   {
+    //     method: 'POST',
+    //     headers:{
+    //       'token': 'token ' + userToken,
+    //     }
+    //   }).then(res => res.json())
+    //   .then((responseData) => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
+    //   .then(response => {console.log('Success:', JSON.stringify(response));success = true} )
+    //   .catch(error => console.error('Error:', error));
 
       if(success)
       {
@@ -70,6 +75,12 @@ class MainScreen extends React.Component
         this.props.navigation.navigate('Authentication');
       }
   }
+
+   
+   openDrawer()
+   {
+      this.refs['DRAWER'].openDrawer()
+   }
 
 
   render() 
@@ -94,12 +105,10 @@ class MainScreen extends React.Component
       
 
       <Container style = {{height : '100%', width: '100%' ,flexDirection : 'column' }} > 
-        <Content>
-          
-        </Content>
         {/* <Content style = {{height : '100%', width: '100%', flexDirection : 'column' ,backgroundColor :'#013400'}} > */}
           <View style = {{height: '100%',width: '100%',justifyContent:'flex-end',flexDirection : 'column' }}>
           <DrawerLayoutAndroid
+            ref={'DRAWER'}
             drawerWidth={300}
             drawerPosition={DrawerLayoutAndroid.positions.Right}
             renderNavigationView={() => navigationView}>
@@ -109,7 +118,7 @@ class MainScreen extends React.Component
                   {
                     () =>
                     {
-                      this.props.navigation.goBack();
+                      this.props.navigation.navigate('GroupCreation');
                     }
                   }
                   underlayColor='#99d9f4'
