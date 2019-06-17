@@ -54,20 +54,20 @@ class MainScreen extends React.Component
   //not completed
   async logOut()
   {
-    var success = true;
+    var success = false;
     var url = 'http://172.18.218.231:8000/user/api/logout/'; 
-    const userToken = JWTController.CheckIfTokenExists();
+    const userToken = JWTController.GetUserToken();
 
-    // fetch(url, 
-    //   {
-    //     method: 'POST',
-    //     headers:{
-    //       'token': 'token ' + userToken,
-    //     }
-    //   }).then(res => res.json())
-    //   .then((responseData) => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
-    //   .then(response => {console.log('Success:', JSON.stringify(response));success = true} )
-    //   .catch(error => console.error('Error:', error));
+    fetch(url, 
+      {
+        method: 'POST',
+        headers:{
+          'token': 'token ' + userToken,
+        }
+      }).then(res => res.json())
+      .then((responseData) => JWTController.DeleteToken())
+      .then(response => {console.log('Success:', JSON.stringify(response));success = true} )
+      .catch(error => console.log('Error:', error));
 
       if(success)
       {

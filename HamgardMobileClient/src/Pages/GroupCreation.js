@@ -67,12 +67,38 @@ class GroupCreationScreen extends React.Component {
           EndMinute: 'mm',
           EndDate: null,
           emails:[ ],
-          EnteredEmail:''
+          EnteredEmail:'',
+          type:'public'
 
         };
       }
 
-     
+      onSubmit()
+      {
+        var url = 'http://172.18.218.231:8000/user/api/creategroup/';
+        var Success = false;
+        var data = {name:this.state.name, type:this.state.type, emails:this.state.emails}
+
+        const userToken = JWTController.GetUserToken();
+
+        fetch(url, 
+          {
+            method: 'POST', 
+            body: JSON.stringify(data),
+            headers:{
+              'token': 'token ' + userToken
+            }
+          }).then(res => res.json())
+          .then(response => {console.log('Success:', JSON.stringify(response)); Success = true})
+          .catch(error => console.log('Error:', error));
+
+          if(Success)
+          {
+            this.props.navigation.navigate('Main')
+          }
+        }
+      
+       
 
       CloseModal=() => {
         this.setState({modalVisible: false})
@@ -196,9 +222,23 @@ class GroupCreationScreen extends React.Component {
           <View style = {styles.stepOneContainer}>
            <TextFa style={{marginTop: '-8%' ,alignSelf:'flex-end', fontSize:18}}>عنوان و توضیحات کلی</TextFa>
             <Item regular style={{padding:'1%', borderRadius:10 ,backgroundColor:'#dddddd', borderWidth:0, marginTop:'3%', }}>
-                <Input onChangeText={(text) => this.setState({GroupName: text})} style={{fontSize:24}} placeholder='نام گروه'/>
+                <Input onChangeText={(text) => this.setState({name: text})} style={{fontSize:24}} placeholder='نام گروه'/>
             </Item>
-            <Item regular style={{ padding:10, borderRadius:10 ,backgroundColor:'#dddddd', borderWidth:0, marginTop:'5%', height:WindowSize.height *0.3, width:WindowSize.width *0.63, alignItems:'flex-start'}}>
+            <View style={{padding:'2%', flexDirection:'row', alignItems:'flex-end', justifyContent:'flex-end'}}>
+             <TextFa>گروه خصوصی است</TextFa>
+              <CheckBox color={'#BC1D39'} checked={this.state.type == 'private' ? true : false} onPress={() => {
+                if(this.state.type == 'public')
+                {
+                  this.setState({type: 'private'})
+                }
+                if(this.state.type == 'private')
+                {
+                  this.setState({type: 'public'})
+                }
+              }} />
+              
+            </View>
+            <Item regular style={{ padding:10, borderRadius:10 ,backgroundColor:'#dddddd', borderWidth:0, marginTop:'5%', height:WindowSize.height *0.28, width:WindowSize.width *0.63, alignItems:'flex-start'}}>
                 <Textarea onChangeText={(text) => this.setState({GroupDescription: text})} style={{width:WindowSize.width *0.6, height:380, fontSize:24}} placeholder="توضیحات" />
             </Item>
             <View style = {{flexDirection:'row', justifyContent:'space-around', alignSelf:'stretch',marginTop:'5%'}}>
@@ -215,7 +255,14 @@ class GroupCreationScreen extends React.Component {
                   {
                     () =>
                     {
-                      this.setState({Step: 2})
+                      if(this.state.name == null)
+                      {
+                        alert('enter group name')  
+                      }
+                      else{
+                        this.setState({Step: 2})
+                      }
+                     
                     }
                   } ><TextFa style={{color:'#ffffff'}}>مرحله بعد</TextFa></Button>
             </View>
@@ -226,6 +273,7 @@ class GroupCreationScreen extends React.Component {
       {
         return(
           <View style = {styles.stepTwoContainer}>
+          <TextFa style={{marginTop: '-10%', marginBottom:'2%' ,alignSelf:'flex-end', fontSize:18}}>زمان رویداد</TextFa>
             <View style = {{flexDirection:'row'}}>
               <Button style={styles.TimePicker} onPress=
                 {
@@ -283,7 +331,15 @@ class GroupCreationScreen extends React.Component {
                 {
                   () =>
                   {
-                    this.setState({Step: 3})
+                    if(this.state.StartDate == null || this.state.EndDate == null 
+                    ||this.state.StartHour =='hh' || this.state.StartMinute == 'mm' || this.state.EndHour =='hh'
+                    ||this.state.EndMinute == 'mm')
+                    {
+                      alert('please fill all fields')
+                    }
+                    else{
+                      this.setState({Step: 3})
+                    }
                   }
                 } ><TextFa style={{color:'#ffffff'}}>مرحله بعد</TextFa></Button>
                 
@@ -331,7 +387,7 @@ class GroupCreationScreen extends React.Component {
                   {
                     () =>
                     {
-                      this.setState({Step: 2})
+                      this.onSubmit();
                     }
                   } ><TextFa style={{color:'#ffffff'}}>ایجاد گروه</TextFa></Button>
             </View>
@@ -395,7 +451,7 @@ class GroupCreationScreen extends React.Component {
   stepOneContainer:{
     flex:11,
     backgroundColor:'#ffffff',
-    alignItems: 'center',
+    alignItems: 'stretch',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     width: WindowSize.width * 0.8,
