@@ -8,12 +8,18 @@
   },
   "dependencies": {
     "expo": "^32.0.0",
+    "jalaali-js": "^1.1.0",
     "nachos-ui": "^0.2.0-beta.1",
     "native-base": "^2.12.1",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
+    "react-native-image-picker": "^0.28.1",
+    "react-native-modal": "^11.0.2",
+    "react-native-persian-calendar-picker": "^3.0.0",
+    "react-native-persian-date-picker": "^1.0.1",
     "react-native-router-flux": "^4.0.6",
+    "react-native-step-indicator": "0.0.11",
     "react-navigation": "^3.5.1",
     "tcomb-form-native": "^0.6.20"
   },

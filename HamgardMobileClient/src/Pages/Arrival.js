@@ -20,7 +20,7 @@ class ArrivalScreen extends React.Component {
           <View style = {styles.container}>
             <View>
             
-              <Image source={require('../images/Arrival-logo.jpg')} />
+              <Image  source={require('../../assets/images/Arrival-logo.jpg')} />
 
             </View>
 
