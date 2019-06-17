@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
     Container: {
         flex:1,
         flexDirection: 'column',
-        justifyContent: 'center',
-        padding: 20,
+        marginTop:'5%',
+        padding: '5%',
         backgroundColor: '#ffffff',
       },
       inputContainer: {
@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
       stackedLabelItem:
       {
         flex:1,
-        marginBottom:20,
+        marginBottom:10,
         
       },
       warningStackedLabelItem:
       { 
         flex:1,
-        marginBottom:20,
+        marginBottom:10,
         borderColor:'#FD5523'
       },
       input: 
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'center'
       },
+      alert: {
+        color:'#BC1D39'
+      }
   })
 
   export default styles;

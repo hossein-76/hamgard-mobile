@@ -5,6 +5,9 @@ import JWTController from '../Controllers/AuthenticationController';
 import FormStyles from '../Styles/Form';
 import ButtonStyles from '../Styles/Buttons'
 import HeaderStyles from '../Styles/Headers'
+import {TextFa} from '../Components/TextFa';
+import {Alert} from '../Components/Texts';
+import {Field} from '../Components/Form'
 
 
 var STORAGE_KEY = 'id_token';
@@ -32,7 +35,7 @@ class SignUpScreen extends React.Component
 
   static navigationOptions = ({navigation}) => {
     return {
-      headerRight:<View><Text style = {HeaderStyles.TitleRight}>ثبت‌نام</Text></View>,
+      headerRight:<View><TextFa style = {HeaderStyles.TitleRight}>ثبت‌نام</TextFa></View>,
       headerStyle: {
         backgroundColor: '#BC1D39',
       },
@@ -130,6 +133,8 @@ class SignUpScreen extends React.Component
          password:this.state.PassWord,
          email:this.state.email,
          phone_number:this.state.phoneNumber};
+        
+        
 
         fetch(url, 
           {
@@ -141,62 +146,75 @@ class SignUpScreen extends React.Component
             }).then(res => res.json())
             .then((responseData) => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
             .then(response => console.log('Success:', JSON.stringify(response)))
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.log('Error:', error));
      
 
       
   }
   
 
+  ModifyStates(text, fieldLabel)
+  {
+    if(fieldLabel == 'UserName')
+    {
+      UserName = text;
+      this.setState({UserName: text})
+      this.setState({UserNameInputValid: false})
+    }
+    if(fieldLabel == 'Email')
+    {
+      Email = text;
+      this.setState({email: text});
+      this.setState({EmailInputValid: false})
+    }
+    if(fieldLabel == 'PhoneNumber')
+    {
+      PhoneNumber = text; 
+      this.setState({phoneNumber: text});
+      this.setState({PhoneNumberInputValid: false})
+    }
+    if(fieldLabel == 'PassWord')
+    {
+      PassWord = text;
+      this.setState({PassWord: text});
+      this.setState({PassWordInputValid: false})
+    }
+    if(fieldLabel == 'PassWordComfirmation')
+    {
+      PassWordConfirmation = text; 
+      this.setState({PassWordConfirmation: text});
+      this.setState({PassWordConfirmationInputValid: false})
+    }
+  }
+
+
   render() 
   {
     return (
 
       <Container> 
-        <Content>
-          <View style = {FormStyles.Container}>
+        <Content style = {FormStyles.Container}>
+          <View>
             <Form style = {FormStyles.inputContainer}>
-              <Item stackedLabel error={this.state.UserNameInputValid} style={FormStyles.stackedLabelItem}>
-                <Label style = {FormStyles.label}>نام‌ کاربری</Label>
-                <Input style={FormStyles.input}
-                 onChangeText={(text) => {
-                   UserName = text;
-                   this.setState({UserName: text})
-                   this.setState({UserNameInputValid: false})
-                   }}/>
-              </Item>
-              <Item error={this.state.EmailInputValid} style={FormStyles.stackedLabelItem} stackedLabel>
-                <Label style = {FormStyles.label}>ایمیل</Label>
-                <Input style={FormStyles.input} 
-                onChangeText={(text) => {
-                  Email = text;
-                  this.setState({email: text});
-                  this.setState({EmailInputValid: false})}}/>
-              </Item>
-              <Item error={this.state.PhoneNumberInputValid} style={FormStyles.stackedLabelItem} stackedLabel>
-                <Label style = {FormStyles.label}>تلفن‌همراه</Label>
-                <Input style={FormStyles.input} 
-                onChangeText={(text) =>{
-                  PhoneNumber = text; 
-                  this.setState({phoneNumber: text});
-                  this.setState({PhoneNumberInputValid: false})}}/>
-              </Item>
-              <Item error={this.state.PassWordInputValid} style={FormStyles.stackedLabelItem} stackedLabel>
-                <Label style = {FormStyles.label}>کلمه‌عبور</Label>
-                <Input style={FormStyles.input} secureTextEntry = {true} 
-                onChangeText={(text) => {
-                  PassWord = text;
-                  this.setState({PassWord: text});
-                  this.setState({PassWordInputValid: false})}}/>
-              </Item>
-              <Item error={this.state.PassWordConfirmationInputValid} style={FormStyles.stackedLabelItem} stackedLabel>
-                <Label style = {FormStyles.label}>تایید کلمه‌عبور</Label>
-                <Input style={FormStyles.input} secureTextEntry = {true} 
-                onChangeText={(text) => {
-                  PassWordConfirmation = text; 
-                  this.setState({PassWordConfirmation: text});
-                  this.setState({PassWordConfirmationInputValid: false})}}  />
-              </Item>
+             <Field error={this.state.UserNameInputValid}
+              labelText={'نام‌ کاربری'} alertMessage={'نام‌کاربری خود را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'UserName')}/>
+
+              <Field error={this.state.EmailInputValid}
+              labelText={'ایمیل'} alertMessage={'ایمیل خود را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'Email')}/>
+
+              <Field error={this.state.PhoneNumberInputValid}
+              labelText={'تلفن‌همراه'} alertMessage={'شماره تلفن خود را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'PhoneNumber')}/>
+
+              <Field secureTextEntry = {true}  error={this.state.PassWordInputValid}
+              labelText={'کلمه‌عبور'} alertMessage={'کلمه عبور را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'PassWord')}/>
+
+              <Field secureTextEntry = {true}  error={this.state.PassWordConfirmationInputValid}
+              labelText={'تایید کلمه‌عبور'} alertMessage={'کلمه‌عبور رااشتباه وارد کرده‌اید'}
+              onChange={(text) => this.ModifyStates(text, 'PassWordComfirmation')}/>
             </Form>
             <View style={FormStyles.buttonContainer}>
                 <Button block rounded style = {FormStyles.button}
@@ -209,7 +227,7 @@ class SignUpScreen extends React.Component
                   }
                   underlayColor='#99d9f4'
                 >
-                <Text style = {ButtonStyles.buttonText}>ثبت‌نام</Text>
+                <TextFa style = {ButtonStyles.buttonText}>ثبت‌نام</TextFa>
               </Button>
               <Button block rounded style = {FormStyles.button}
                 onPress=
@@ -221,11 +239,11 @@ class SignUpScreen extends React.Component
                 }
                 underlayColor='#99d9f4'
               >
-              <Text style = {ButtonStyles.buttonText}>بازگشت</Text>
+              <TextFa style = {ButtonStyles.buttonText}>بازگشت</TextFa>
             </Button>
             </View>
           </View>
-          <View>
+          <View style={{marginBottom:'20%'}}>
             <Text style={{alignSelf: 'flex-end',marginRight: 20, fontSize: 20}}>حساب‌کاربری دارید؟</Text>
             <Text style = {{alignSelf: 'flex-end',marginRight: 20, color: 'blue', fontSize: 20}} onPress = {() => this.props.navigation.navigate('Login')} >وارد شوید</Text>
           </View>

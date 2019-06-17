@@ -1,11 +1,13 @@
 import React from 'react';
 import {TextInput,TouchableHighlight, StyleSheet, View, Text } from 'react-native';
 import { Container, Header, Content, Button, Form, Item, Input, Label  } from 'native-base';
+
 import JWTController from '../Controllers/AuthenticationController';
 import FormStyles from '../Styles/Form';
 import ButtonStyles from '../Styles/Buttons';
 import HeaderStyles from '../Styles/Headers';
 import { TextFa} from '../Components/TextFa';
+import {Field} from '../Components/Form';
 
 var STORAGE_KEY = 'id_token';
 
@@ -61,6 +63,7 @@ var PassWord = "";
     var data = {username: this.state.UserName, password:this.state.PassWord, remember_me:false};
 
    
+   
     fetch(url, 
     {
       method: 'POST', 
@@ -71,34 +74,45 @@ var PassWord = "";
     }).then(res => res.json())
     .then((responseData) => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
     .then(response => console.log('Success:', JSON.stringify(response)))
-    .catch(error => console.error('Error:', error));
+    .catch(error => console.log('Error:', error));
   }
+
+
+  ModifyStates(text, fieldLabel)
+  {
+    if(fieldLabel == 'UserName')
+    {
+      UserName = text;
+      this.setState({UserName: text})
+      this.setState({UserNameInputValid: false})
+    }
+    if(fieldLabel == 'PassWord')
+    {
+      PassWord = text;
+      this.setState({PassWord: text});
+      this.setState({PassWordInputValid: false})
+    }
+    
+  }
+
 
   render() 
   {
     return (
 
       <Container> 
-        <Content>
-          <View style = {{...FormStyles.Container}}>
+        <Content style = {{...FormStyles.Container, marginTop:'30%'}}>
+          <View >
             <Form style = {FormStyles.inputContainer}>
-              <Item stackedLabel error={this.state.UserNameInputValid} style={FormStyles.stackedLabelItem}>
-                <Label style={FormStyles.label}><TextFa>نام کاربری</TextFa></Label>
-                <Input style={FormStyles.input}
-                 onChangeText={(text) => {
-                   UserName = text;
-                   this.setState({UserName: text})
-                   this.setState({UserNameInputValid: false})
-                   }}/>
-              </Item>
-              <Item error={this.state.PassWordInputValid} style={FormStyles.stackedLabelItem} stackedLabel>
-                <Label style={FormStyles.label}><TextFa>کلمه عبور</TextFa></Label>
-                <Input style={FormStyles.input} secureTextEntry = {true} 
-                onChangeText={(text) => {
-                  PassWord = text;
-                  this.setState({PassWord: text});
-                  this.setState({PassWordInputValid: false})}}/>
-              </Item>
+            <Field error={this.state.UserNameInputValid}
+              labelText={'نام‌ کاربری'} alertMessage={'نام‌کاربری خود را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'UserName')}/>
+
+
+              <Field secureTextEntry = {true}  error={this.state.PassWordInputValid}
+              labelText={'کلمه‌عبور'} alertMessage={'کلمه عبور را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'PassWord')}/>
+
             </Form>
             <View style={FormStyles.buttonContainer}>
                 <Button block rounded style = {FormStyles.button}
