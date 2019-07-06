@@ -1,0 +1,1 @@
+export const GET_GROUPS = 'get_groups';
