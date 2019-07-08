@@ -367,13 +367,13 @@ class GroupCreationScreen extends React.Component {
                   
                 </Item>
                 
-               </View>
-            <FlatList style={styles.flatList} 
-              data={TempEmails}
-              extraData={this.state}
-              renderItem={this.renderItem}
-              keyExtractor={this.extractKey}
-            />
+              </View>
+              <FlatList style={styles.flatList} 
+                data={TempEmails}
+                extraData={this.state}
+                renderItem={this.renderItem}
+                keyExtractor={this.extractKey}
+              />
             <View style = {{flexDirection:'row', justifyContent:'space-around', alignSelf:'stretch',marginTop:'5%'}}>
               <Button style={{...styles.button, backgroundColor:'#aaaaaa'}} onPress=
                     {
