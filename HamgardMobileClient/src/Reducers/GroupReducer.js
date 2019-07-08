@@ -7,6 +7,12 @@ const initialState = {
                                             {key: "3", name: "mehdi"},
                                             {key: "3", name: "mehdi"},
                                             {key: "3", name: "mehdi"},
+                                            {key: "3", name: "mehdi"}],
+                                  polls: [{key: "1", name: "ali"},
+                                            {key: "2", name: "hossein"},
+                                            {key: "3", name: "mehdi"},
+                                            {key: "3", name: "mehdi"},
+                                            {key: "3", name: "mehdi"},
                                             {key: "3", name: "mehdi"}]}
 }
 

@@ -7,10 +7,13 @@ import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
 
 const WindowSize = {width: Dimensions.get('window').width, height: Dimensions.get('window').height}
 
-class GroupMember extends React.Component
+class PollListItem extends React.Component
 {
     constructor(props) {
         super(props);
+        this.state = {
+            item: this.props.item
+        };
       }
     
 
@@ -19,13 +22,17 @@ class GroupMember extends React.Component
     {
         return(
             
-            <View style={styles.container}>
+            <TouchableOpacity style={styles.container} onPress = {() => {
+                this.props.onPress();
+            }}>
                 
-                <Image style = {styles.avatar}  source={require('../../assets/images/Avatar.png')} />
-                <TextFa style={{fontSize:16, paddingRight:'1%'}}>
-                    {this.props.name} 
+                <TextFa style={{fontSize:24, paddingRight:'1%', color:'#ffffff'}}>
+                    {this.props.name}
                 </TextFa>
-            </View>
+                <TextFa style={{fontSize:16, paddingRight:'1%', color:'#ffffff'}}>
+                    سازنده گروه : {this.props.creator} 
+                </TextFa>
+            </TouchableOpacity>
 
             
         )
@@ -37,18 +44,15 @@ class GroupMember extends React.Component
 
 const styles = StyleSheet.create({
     container:{
-        //padding:'2%',
-       // margin:'2%',
-       // width:'100%',
+        padding:'2%',
+        width:'100%',
+        
         flexDirection:'column',
-        alignItems:'center',
-        //backgroundColor:'#BC1D39',
-        //marginBottom:'1%',
-        //borderRadius:10
-    },
-    avatar:{
-        width:100,
-        height: 100
+        alignItems: 'flex-end',
+        justifyContent:'flex-start',
+        backgroundColor:'#BC1D39',
+        marginBottom:'1%',
+        borderRadius:10
     },
     button: {
         backgroundColor: '#b2ece1',
@@ -62,4 +66,4 @@ const styles = StyleSheet.create({
     
   });
 
-export {GroupMember};
+export {PollListItem};
