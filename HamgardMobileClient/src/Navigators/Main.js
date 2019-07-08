@@ -4,12 +4,14 @@ import GroupCreationScreen from '../Pages/GroupCreation';
 import Auth from './Authentication';
 import GroupMainScreen from '../Pages/GroupMainPage'
 import PollScreen from '../Pages/PollPage'
+import PollCreationScreen from '../Pages/PollCreationPage'
 
 const MainSession = createStackNavigator({
         Main: MainScreen,
         GroupCreation: GroupCreationScreen,
         Group: GroupMainScreen,
-        Poll: PollScreen
+        Poll: PollScreen,
+        PollCreation: PollCreationScreen
   }, {
       initialRouteName: 'Main',
       headerMode: 'screen',

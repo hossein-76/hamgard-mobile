@@ -3,7 +3,7 @@ import JWTController from '../Controllers/AuthenticationController';
 import {GET_GROUPS} from './Types';
 
 
-const GetGroups = async () => 
+const GetGroups = () => async (dispatch, getState) => 
 {
     new Promise((resolve, reject) => {
         const url = 'groups/';
@@ -29,7 +29,7 @@ const GetGroups = async () =>
     
 }   
 
-const LoadGroup = async (GroupID) => 
+const LoadGroup =  (GroupID) => async (dispatch, getState) => 
 {
     new Promise((resolve, reject) => {
         const url = 'groups/';
@@ -55,3 +55,9 @@ const LoadGroup = async (GroupID) =>
     })
     
 }   
+
+const GroupActions = {
+    GetGroups,
+    LoadGroup,
+};
+export { GroupActions };

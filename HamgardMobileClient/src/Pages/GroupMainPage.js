@@ -78,7 +78,9 @@ class GroupMainScreen extends React.Component {
             <View style = {styles.pollListContainer}>
               <View style = {{flexDirection : 'row', justifyContent: 'flex-end'}}>
                 <TextFa style = {{fontSize : 20}}>نظر سنجی ها</TextFa>
-                <Button style = {styles.button}>
+                <Button style = {styles.button}  onPress = {() => {
+                  this.props.navigation.navigate('PollCreation');
+                }}>
                   <TextFa style = {{fontSize : 18, color: '#ffffff'}}>+</TextFa>
                 </Button>
               </View>

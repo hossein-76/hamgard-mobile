@@ -3,7 +3,7 @@ import JWTController from '../Controllers/AuthenticationController';
 import {GET_USER_INFO} from './Types';
 
 
-const GetUserInfo =  async () => 
+const GetUserInfo =   () => async (dispatch, getState) =>
 {
     new Promise((resolve, reject) => {
         const url = 'groups/'; //need change
@@ -26,4 +26,9 @@ const GetUserInfo =  async () =>
                 reject({ error });
             });
     })
-}   
+} 
+
+const UserActions = {
+    GetUserInfo,
+};
+export { UserActions };
