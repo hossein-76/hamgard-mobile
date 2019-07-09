@@ -4,15 +4,17 @@ import { Container, Header, Content, Button  } from 'native-base';
 import { AppLoading, Font } from 'expo';
 import { TextFa } from './TextFa'
 import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
+import { connect } from "react-redux";
+import { LoadGroup } from '../Actions'
 
 const WindowSize = {width: Dimensions.get('window').width, height: Dimensions.get('window').height}
 
-class GroupListItem extends React.Component
+class GroupListItemComponent extends React.Component
 {
     constructor(props) {
         super(props);
         this.state = {
-            item: this.props.item
+            id: this.props.id
         };
       }
     
@@ -22,7 +24,8 @@ class GroupListItem extends React.Component
     {
         return(
             
-            <TouchableOpacity style={styles.container} onPress = {() => {
+            <TouchableOpacity style={styles.container} onPress = {async () => {
+                await this.props.LoadGroup(this.props.id);
                 this.props.onPress();
             }}>
                 
@@ -65,5 +68,13 @@ const styles = StyleSheet.create({
       },
     
   });
+
+  const MapStateToProps = (state, ownProps) => {
+    return {
+      groups: state.Group.groups
+    };
+  };
+
+  const GroupListItem = connect(MapStateToProps, {LoadGroup})(GroupListItemComponent);
 
 export {GroupListItem};

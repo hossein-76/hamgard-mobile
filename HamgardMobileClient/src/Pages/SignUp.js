@@ -194,6 +194,7 @@ class SignUpScreen extends React.Component
 
             if(success)
             {
+              this.props.GetGroups()
               this.props.navigation.navigate("MainSession");
             }
             

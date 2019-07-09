@@ -94,7 +94,8 @@ class MainScreen extends React.Component {
       .catch(error => console.log("Error:", error));
     if (success) {
       JWTController.DeleteToken()
-      this.props.navigation.navigate("Authentication");
+      this.props.navigation.goBack();
+      this.props.navigation.navigate('Authentication');
     }
   }
 
@@ -107,6 +108,7 @@ class MainScreen extends React.Component {
       <GroupListItem
         name={List.item.name}
         creator={List.item.admin_username}
+        id={List.item.id}
         onPress={() => {this.props.navigation.navigate('Group')}}
       />
     );

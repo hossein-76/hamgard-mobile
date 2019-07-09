@@ -80,8 +80,6 @@ class GroupCreationScreen extends React.Component {
           let Success = false;
          await this.props.CreateGroup({name: this.state.name , emails: this.state.emails, type: this.state.type, summery: this.state.GroupDescription})
           .then((res) => { 
-            console.log('kiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiir');
-            console.log(JSON.stringify(res.status));
             if(JSON.stringify(res.status) == 200)
             {
                Success = true;

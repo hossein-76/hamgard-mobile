@@ -23,6 +23,7 @@ class PollListItem extends React.Component
         return(
             
             <TouchableOpacity style={styles.container} onPress = {() => {
+                this.props.id;
                 this.props.onPress();
             }}>
                 
@@ -30,7 +31,7 @@ class PollListItem extends React.Component
                     {this.props.name}
                 </TextFa>
                 <TextFa style={{fontSize:16, paddingRight:'1%', color:'#ffffff'}}>
-                    سازنده گروه : {this.props.creator} 
+                    تعداد رای : {this.props.voteCount} 
                 </TextFa>
             </TouchableOpacity>
 

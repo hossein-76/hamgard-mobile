@@ -1,7 +1,7 @@
 import {APIRequest} from '../Services/APIService';
 import {AsyncStorage,} from 'react-native'
 import JWTController from '../Controllers/AuthenticationController';
-import {GET_GROUPS, CREATE_GROUP} from './Types';
+import {GET_GROUPS, CREATE_GROUP, LOAD_GROUP} from './Types';
 
 
 export const GetGroups = () => async (dispatch, getState) => 
@@ -39,19 +39,21 @@ export const GetGroups = () => async (dispatch, getState) =>
 
 export const LoadGroup =  (GroupID) => async (dispatch, getState) => 
 {
-    new Promise((resolve, reject) => {
-        const url = 'groups/';
-
+   return new Promise((resolve, reject) => {
+        const url = 'group/';
+        const urlFirst = 'group/'
+        const GID = {group_id: GroupID}
         const options = {
-            method: 'GET',
-            group_id: GroupID
+            method: 'POST',
+            body: JSON.stringify(GID)
         };
 
 
         APIRequest(options,urlFirst, url, true)
+        .then((data) => data.json())
             .then((data) => {
                 dispatch({
-                    type: GET_GROUPS,
+                    type: LOAD_GROUP,
                     payload: data
                 });
                 resolve(data);

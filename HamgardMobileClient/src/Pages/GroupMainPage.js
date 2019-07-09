@@ -10,15 +10,6 @@ import HeaderStyles from '../Styles/Headers';
 
 const tempData = [];
 
-var GroupMemberList = [{key: "1", name: "ali"},
-                      {key: "2", name: "hossein"},
-                      {key: "3", name: "hossljgljgjlgjlgein"},
-                      {key: "4", name: "hossein"},
-                      {key: "5", name: "hossein"},
-                      {key: "6", name: "hossein"},
-                      {key: "7", name: "hossein"},
-                      {key: "8", name: "hossein"},
-                      {key: "9", name: "mehdi"}];
 
 const extractKey = ({ key, text }) => key;
 
@@ -40,20 +31,11 @@ class GroupMainScreen extends React.Component {
         }
     }
 
-    CreatorCheck()
-    {
-
-    }
-
-    CreateGroupMemberList()
-    {
-
-    }
 
     membersRenderItem = (List) => {
       return (
         <View style = {{margin : 5}}>
-          <GroupMember name = {List.item.name}/>  
+          <GroupMember name = {List.item}/>  
         </View>
       );
     };
@@ -61,7 +43,7 @@ class GroupMainScreen extends React.Component {
     pollsRenderItem = (List) => {
       return (
         <View style = {{margin : 5}}>
-          <PollListItem name = {List.item.name} onPress = {() => {
+          <PollListItem name = {List.item.question} voteCount = {List.item.vote_count} id = {List.item.id} onPress = {() => {
             this.props.navigation.navigate('Poll')
           }}/>  
         </View>

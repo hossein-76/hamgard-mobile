@@ -1,13 +1,14 @@
 import React from 'react';
 import {TextInput,TouchableHighlight, StyleSheet, View, Text } from 'react-native';
 import { Container, Header, Content, Button, Form, Item, Input, Label  } from 'native-base';
-
+import { GetGroups} from '../Actions'
 import JWTController from '../Controllers/AuthenticationController';
 import FormStyles from '../Styles/Form';
 import ButtonStyles from '../Styles/Buttons';
 import HeaderStyles from '../Styles/Headers';
 import { TextFa} from '../Components/TextFa';
 import {Field} from '../Components/Form';
+import {connect} from 'react-redux'
 
 var STORAGE_KEY = 'id_token';
 
@@ -81,6 +82,7 @@ var PassWord = "";
     .then((responseData) => {JWTController.OnValueChange(STORAGE_KEY, responseData.token)})
     if(success)
     {
+      this.props.GetGroups()
       this.props.navigation.navigate("MainSession");
     }
   }
@@ -160,5 +162,10 @@ var PassWord = "";
   }
 }
 
+const MapStateToProps = (state, ownProps) => {
+  return {
+    groups: state.Group.groups
+  };
+};
 
-export default LoginScreen;
+export default connect(MapStateToProps, {GetGroups})(LoginScreen);
