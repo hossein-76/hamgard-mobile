@@ -1,6 +1,6 @@
 import {APIRequest} from '../Services/APIService';
 import JWTController from '../Controllers/AuthenticationController';
-import {GET_GROUPS} from './Types';
+import {GET_GROUPS, CREATE_GROUP} from './Types';
 
 
 export const GetGroups = () => async (dispatch, getState) => 
@@ -71,7 +71,7 @@ export const CreateGroup = (groupData) => async (dispatch, getState) =>
         APIRequest(options, url, token)
             .then((response) => {
                 dispatch({
-                    type: GET_GROUPS,
+                    type: CREATE_GROUPS,
                     payload: groupData
                 });
                 resolve(response);
