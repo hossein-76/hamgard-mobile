@@ -1,4 +1,5 @@
 import {APIRequest} from '../Services/APIService';
+import {AsyncStorage,} from 'react-native'
 import JWTController from '../Controllers/AuthenticationController';
 import {GET_GROUPS, CREATE_GROUP} from './Types';
 
@@ -12,9 +13,8 @@ export const GetGroups = () => async (dispatch, getState) =>
             method: 'GET'
         };
 
-        const token = JWTController.GetUserToken();
 
-        APIRequest(options, url, token)
+        APIRequest(options, url, true)
             .then((data) => {
                 dispatch({
                     type: GET_GROUPS,
@@ -39,9 +39,8 @@ export const LoadGroup =  (GroupID) => async (dispatch, getState) =>
             group_id: GroupID
         };
 
-        const token = JWTController.GetUserToken();
 
-        APIRequest(options, url, token)
+        APIRequest(options, url, true)
             .then((data) => {
                 dispatch({
                     type: GET_GROUPS,
@@ -59,16 +58,13 @@ export const LoadGroup =  (GroupID) => async (dispatch, getState) =>
 export const CreateGroup = (groupData) => async (dispatch, getState) => 
 {
     new Promise((resolve, reject) => {
-        const url = 'groups/';
-
+        const url = 'create_group/';
         const options = {
-            method: 'GET',
-            group_id: GroupID
+            method: 'POST',
+            body: JSON.stringify(groupData)
         };
 
-        const token = JWTController.GetUserToken();
-
-        APIRequest(options, url, token)
+        APIRequest(options, url, true)
             .then((response) => {
                 dispatch({
                     type: CREATE_GROUPS,

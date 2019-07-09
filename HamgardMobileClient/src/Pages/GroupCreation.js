@@ -77,9 +77,8 @@ class GroupCreationScreen extends React.Component {
 
       onSubmit()
       {
-        
-       
-          CreateGroup({})
+          let Success = false;
+          this.props.CreateGroup({name: this.state.name , emails: this.state.emails, type: this.state.type, summery: this.state.GroupDescription})
           if(Success)
           {
             this.props.navigation.navigate('Main')

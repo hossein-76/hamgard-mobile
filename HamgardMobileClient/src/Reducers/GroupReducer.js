@@ -1,4 +1,4 @@
-import {GET_GROUPS, LOAD_GROUP} from '../Actions/Types'
+import {GET_GROUPS, LOAD_GROUP, CREATE_GROUP} from '../Actions/Types'
 
 const initialState = {
     groups : [],
@@ -29,6 +29,13 @@ export const GroupReducer = (state = initialState, action) => {
                 ...state,
                 loadedGroup: {...action.payload}
             }
+        case CREATE_GROUP:
+        let tmp = [...state.groups]
+        tmp.push(action.payload); 
+        return {
+            ...state,
+            groups: tmp
+        }
         default: {
             return state;
         }
