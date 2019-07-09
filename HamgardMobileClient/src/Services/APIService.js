@@ -2,7 +2,7 @@ import {AsyncStorage} from 'react-native'
 
 var STORAGE_KEY = 'id_token';
 
-const  APIRequest = async (options, url, needToken) => {
+const  APIRequest = async (options, urlFirst, url, needToken) => {
     let token = {};
     if(needToken)
     {
@@ -14,16 +14,15 @@ const  APIRequest = async (options, url, needToken) => {
         token = {}
     }
     return new Promise((resolve, reject) => {
-        fetch(`http://192.168.43.209:8000/group/api/v1/${url}`, {
+        fetch(`http://192.168.43.209:8000/${urlFirst}api/v1/${url}`, {
             ...options,
             headers: {
                 'Content-Type': 'application/json',
                 ...token
             }
         })
-            .then((data) => data.json())
             .then((data) => {
-                console.log('receved_data: ', data);
+               // console.log('receved_data: ', data);
                 resolve(data);
             })
             .catch((error) => {

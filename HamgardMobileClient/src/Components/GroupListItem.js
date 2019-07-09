@@ -44,7 +44,7 @@ class GroupListItem extends React.Component
 
 const styles = StyleSheet.create({
     container:{
-        padding:'2%',
+        padding:'0%',
         width:'100%',
         
         flexDirection:'column',

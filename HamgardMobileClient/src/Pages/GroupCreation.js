@@ -75,13 +75,24 @@ class GroupCreationScreen extends React.Component {
         };
       }
 
-      onSubmit()
+    async  onSubmit()
       {
           let Success = false;
-          this.props.CreateGroup({name: this.state.name , emails: this.state.emails, type: this.state.type, summery: this.state.GroupDescription})
+         await this.props.CreateGroup({name: this.state.name , emails: this.state.emails, type: this.state.type, summery: this.state.GroupDescription})
+          .then((res) => { 
+            console.log('kiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiir');
+            console.log(JSON.stringify(res.status));
+            if(JSON.stringify(res.status) == 200)
+            {
+               Success = true;
+               console.log(Success);
+            }
+          })
+          console.log(Success);
           if(Success)
           {
-            this.props.navigation.navigate('Main')
+            this.props.navigation.goBack()
+            TempEmails = [];
           }
         }
       
