@@ -39,7 +39,7 @@ var PassWord = "";
     }
   }
 
-  OnSubmit()
+ async  OnSubmit()
   {
     if(UserName == "")
     {
@@ -59,22 +59,30 @@ var PassWord = "";
      }
 
 
-    var url = 'http://172.18.218.231:8000/user/api/login/';
+    var url = 'http://192.168.43.209:8000/user/api/v1/customer_login/';
     var data = {username: this.state.UserName, password:this.state.PassWord, remember_me:false};
-
+    let success = false;
    
    
-    fetch(url, 
+    await fetch(url, 
     {
       method: 'POST', 
       body: JSON.stringify(data),
       headers:{
         'Content-Type': 'application/json'
+        
       }
-    }).then(res => res.json())
-    .then((responseData) => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
-    .then(response => console.log('Success:', JSON.stringify(response)))
-    .catch(error => console.log('Error:', error));
+    }).then(res => {
+      if(JSON.stringify(res.status) == 200)
+      {
+         success = true;
+      }
+      return res.json()})
+    .then((responseData) => {JWTController.OnValueChange(STORAGE_KEY, responseData.token)})
+    if(success)
+    {
+      this.props.navigation.navigate("MainSession");
+    }
   }
 
 

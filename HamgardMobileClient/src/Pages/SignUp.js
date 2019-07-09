@@ -13,6 +13,8 @@ import {Field} from '../Components/Form'
 var STORAGE_KEY = 'id_token';
 const btnStyle = { margin: 15 }
 
+var FirstName = "";
+var LastName = "";
 var UserName = "";
 var Email = "";
 var PhoneNumber = "";
@@ -25,6 +27,8 @@ class SignUpScreen extends React.Component
   constructor(props){
     super(props);
     this.state= {
+      FirstNameInputValid: false,
+      LastNameInputValid: false,
       UserNameInputValid: false,
       EmailInputValid: false,
       PhoneNumberInputValid: false,
@@ -46,12 +50,39 @@ class SignUpScreen extends React.Component
     }
   }
 
-  OnSubmit()
+ async OnSubmit()
   {
-   
+    if(FirstName == "")
+    {
+        this.setState({
+         FirstNameInputValid: true,
+         LastNameInputValid: false,
+         UserNameInputValid: false,
+         EmailInputValid: false,
+         PhoneNumberInputValid: false,
+         PassWordInputValid: false,
+         PassWordConfirmationInputValid: false,  
+       });
+      return;
+    }
+    if(LastName == "")
+    {
+        this.setState({
+         FirstNameInputValid: false,
+         LastNameInputValid: true,
+         UserNameInputValid: false,
+         EmailInputValid: false,
+         PhoneNumberInputValid: false,
+         PassWordInputValid: false,
+         PassWordConfirmationInputValid: false,  
+       });
+      return;
+    }
      if(UserName == "")
      {
          this.setState({
+          FirstNameInputValid: false,
+          LastNameInputValid: false,
           UserNameInputValid: true,
           EmailInputValid: false,
           PhoneNumberInputValid: false,
@@ -63,6 +94,8 @@ class SignUpScreen extends React.Component
      if(Email == "")
      {
       this.setState({
+        FirstNameInputValid: false,
+        LastNameInputValid: false,
         UserNameInputValid: false,
         EmailInputValid: true,
         PhoneNumberInputValid: false,
@@ -74,6 +107,8 @@ class SignUpScreen extends React.Component
      if(PhoneNumber == "")
      {
       this.setState({
+        FirstNameInputValid: false,
+        LastNameInputValid: false,
         UserNameInputValid: false,
         EmailInputValid: false,
         PhoneNumberInputValid: true,
@@ -85,6 +120,8 @@ class SignUpScreen extends React.Component
      if(PassWord == "")
      { 
       this.setState({
+        FirstNameInputValid: false,
+        LastNameInputValid: false,
         UserNameInputValid: false,
         EmailInputValid: false,
         PhoneNumberInputValid: false,
@@ -96,6 +133,8 @@ class SignUpScreen extends React.Component
      if(PassWordConfirmation == "")
      {
       this.setState({
+        FirstNameInputValid: false,
+        LastNameInputValid: false,
         UserNameInputValid: false,
         EmailInputValid: false,
         PhoneNumberInputValid: false,
@@ -107,6 +146,8 @@ class SignUpScreen extends React.Component
      if(PassWord !== PassWordConfirmation)
      {
       this.setState({
+        FirstNameInputValid: false,
+        LastNameInputValid: false,
         UserNameInputValid: false,
         EmailInputValid: false,
         PhoneNumberInputValid: false,
@@ -115,46 +156,66 @@ class SignUpScreen extends React.Component
       });
        return;
      }
-
-
       this.setState({
+        FirstNameInputValid: false,
+        LastNameInputValid: false,
         UserNameInputValid: false,
         EmailInputValid: false,
         PhoneNumberInputValid: false,
         PassWordInputValid: false,
         PassWordConfirmationInputValid: false,  
       });
-
-
       
-       var url = 'http://172.18.218.231:8000/user/api/signup/'; 
+       var url = 'http://192.168.43.209:8000/user/api/v1/customer_signup/'; 
 
-       var data = {username: this.state.UserName,
+       var data = {
+         first_name: this.state.FirstName,
+         last_name: this.state.LastName,
+         username: this.state.UserName,
          password:this.state.PassWord,
-         email:this.state.email,
+         email:this.state.Email,
          phone_number:this.state.phoneNumber};
+        let success = false;
         
-        
-
-        fetch(url, 
+       await  fetch(url, 
           {
               method: 'POST', 
               body: JSON.stringify(data),
               headers:{
                 'Content-Type': 'application/json'
               }
-            }).then(res => res.json())
-            .then((responseData) => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
-            .then(response => console.log('Success:', JSON.stringify(response)))
-            .catch(error => console.log('Error:', error));
-     
+            }).then(res => {
+              if(JSON.stringify(res.status) == 200)
+              {
+                 success = true;
+              }
+              return res.json()})
+            .then(responseData => JWTController.OnValueChange(STORAGE_KEY, responseData.token))
 
+            if(success)
+            {
+              this.props.navigation.navigate("MainSession");
+            }
+            
+            
       
   }
   
 
   ModifyStates(text, fieldLabel)
   {
+    if(fieldLabel == 'FirstName')
+    {
+      FirstName = text;
+      this.setState({FirstName: text})
+      this.setState({FirstNameInputValid: false})
+    }
+    if(fieldLabel == 'LastName')
+    {
+      LastName = text;
+      this.setState({LastName: text})
+      this.setState({LastNameInputValid: false})
+    }
     if(fieldLabel == 'UserName')
     {
       UserName = text;
@@ -164,7 +225,7 @@ class SignUpScreen extends React.Component
     if(fieldLabel == 'Email')
     {
       Email = text;
-      this.setState({email: text});
+      this.setState({Email: text});
       this.setState({EmailInputValid: false})
     }
     if(fieldLabel == 'PhoneNumber')
@@ -196,6 +257,14 @@ class SignUpScreen extends React.Component
         <Content style = {FormStyles.Container}>
           <View>
             <Form style = {FormStyles.inputContainer}>
+            <Field error={this.state.FirstNameInputValid}
+              labelText={'نام‌'} alertMessage={'نام‌ خود را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'FirstName')}/>
+
+                <Field error={this.state.LastNameInputValid}
+              labelText={'نام‌ خانوادگی'} alertMessage={'نام‌ خانوادگی خود را وارد کنید'}
+              onChange={(text) => this.ModifyStates(text, 'LastName')}/>
+
              <Field error={this.state.UserNameInputValid}
               labelText={'نام‌ کاربری'} alertMessage={'نام‌کاربری خود را وارد کنید'}
               onChange={(text) => this.ModifyStates(text, 'UserName')}/>

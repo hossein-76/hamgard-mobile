@@ -20,7 +20,8 @@ class JWTController extends React.Component
     static async DeleteToken()
     {
       try {
-        await AsyncStorage.setItem(STORAGE_KEY, null);
+        await AsyncStorage.setItem(STORAGE_KEY, "");
+       
       } catch (error) {
         console.log('AsyncStorage error: ' + error.message);
       }
@@ -42,7 +43,7 @@ class JWTController extends React.Component
   
     _bootstrapAsync = async () => {
       const userToken = await AsyncStorage.getItem(STORAGE_KEY);
-      this.props.navigation.navigate(userToken ?  'MainSession' : 'Authentication');
+      this.props.navigation.navigate(userToken != null?  'MainSession' : 'Authentication');
     };
   
     render() {
