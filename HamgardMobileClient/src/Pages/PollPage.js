@@ -6,6 +6,7 @@ import { TextFa} from '../Components/TextFa';
 import { GroupMember} from '../Components/GroupMember';
 import { PollListItem} from '../Components/PollListItem';
 import { connect } from "react-redux";
+import { EventCard} from '../Components/EventCard'
 import HeaderStyles from '../Styles/Headers';
 
 const tempData = [];
@@ -31,39 +32,48 @@ class PollScreen extends React.Component {
         }
     }
 
-    CreatorCheck()
-    {
+  
 
-    }
-
-    CreateGroupMemberList()
-    {
-
-    }
-
-    membersRenderItem = (List) => {
+    renderItem = (List) => {
       return (
-        <View style = {{margin : 5}}>
-          <GroupMember name = {List.item.name}/>  
-        </View>
-      );
-    };
-
-    pollsRenderItem = (List) => {
-      return (
-        <View style = {{margin : 5}}>
-          <PollListItem name = {List.item.name}/>  
+        <View style = {{margin : 5, alignItems:'flex-start'}}>
+          <EventCard onPoll = {true} id = {List.item.id} title = {List.item.title} category = {List.item.category}/>
         </View>
       );
     };
 
     render() {
       return (
-        
-        <View style = {styles.container}>
+        <View
+        style={{
+          width: WindowSize.width,
+          height: WindowSize.height,
+          alignItems: "stretch"
+        }}
+      >
+        <View style={styles.topContainer}>
+          <View style = {{flexDirection:'column',width : '80%'}}>
            
+          </View>
+          <Button style={styles.button} onPress = {() => {
+                  
+                }}>  
+            <TextFa style={{ color: "#ffffff", fontSize: 20 }}>
+              تایید
+            </TextFa>
+          </Button>
         </View>
-      
+        <View style={styles.container}>
+          <FlatList
+            numColumns={2}
+            style={styles.flatList}
+            data={this.props.poll.events}
+            extraData={this.state}
+            renderItem={this.renderItem}
+            keyExtractor={this.extractKey}
+          />
+        </View>
+      </View>
       );
     }
   }
@@ -141,7 +151,7 @@ class PollScreen extends React.Component {
 
 const MapStateToProps = (state, ownProps) => {
     return {
-      group:  state.Group.loadedGroup,
+      poll:  state.Poll.loadedPoll,
     };
   };
   

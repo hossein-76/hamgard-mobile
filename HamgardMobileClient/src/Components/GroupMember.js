@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
         //borderRadius:10
     },
     avatar:{
-        width:100,
-        height: 100
+        width: WindowSize.width * 0.2,
+        height: WindowSize.width * 0.2
     },
     button: {
         backgroundColor: '#b2ece1',

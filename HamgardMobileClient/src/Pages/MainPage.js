@@ -20,12 +20,7 @@ import styles from "../Styles/Headers";
 import { GroupListItem } from "../Components/GroupListItem";
 import { connect } from "react-redux";
 
-var Groups = [
-  { key: "1", name: " گروه 1", creator: "احمدرضا" },
-  { key: "2", name: " گروه 2", creator: "احمدرضا" },
-  { key: "3", name: " گروه 2", creator: "احمدرضا" },
-  { key: "4", name: " گروه 2", creator: "احمدرضا" }
-];
+
 
 const extractKey = ({ key, text }) => key;
 
@@ -157,7 +152,7 @@ class MainScreen extends React.Component {
                 }}>
                   <FlatList
                     style={styles.flatList}
-                    data={Groups}
+                    data={this.props.groups}
                     extraData={this.state}
                     renderItem={this.renderItem}
                     keyExtractor={this.extractKey}
@@ -234,7 +229,7 @@ const Styles = StyleSheet.create({
 
 const MapStateToProps = (state, ownProps) => {
   return {
-    items: state.Group.items
+    groups: state.Group.groups
   };
 };
 

@@ -16,6 +16,8 @@ import {Field} from '../Components/Form';
 import { Constants } from 'expo-camera';
 import {DatePickerModal} from '../Components/DatePickerModal'
 import {EmailListItem} from '../Components/EmailListItem'
+import {CreateGroup} from '../Actions'
+import { connect } from "react-redux";
 
 var TempEmails = []
 
@@ -75,23 +77,9 @@ class GroupCreationScreen extends React.Component {
 
       onSubmit()
       {
-        var url = 'http://172.18.218.231:8000/user/api/creategroup/';
-        var Success = false;
-        var data = {name:this.state.name, type:this.state.type, emails:this.state.emails}
-
-        const userToken = JWTController.GetUserToken();
-
-        fetch(url, 
-          {
-            method: 'POST', 
-            body: JSON.stringify(data),
-            headers:{
-              'token': 'token ' + userToken
-            }
-          }).then(res => res.json())
-          .then(response => {console.log('Success:', JSON.stringify(response)); Success = true})
-          .catch(error => console.log('Error:', error));
-
+        
+       
+          CreateGroup({})
           if(Success)
           {
             this.props.navigation.navigate('Main')
@@ -535,4 +523,11 @@ class GroupCreationScreen extends React.Component {
   },
 });
 
-  export default GroupCreationScreen;
+const MapStateToProps = (state, ownProps) => {
+  return {
+     g: state.Group.groups
+  };
+};
+
+
+  export default connect(MapStateToProps, {CreateGroup})(GroupCreationScreen);;
