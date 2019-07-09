@@ -4,40 +4,63 @@ import { Container, Header, Content, Button  } from 'native-base';
 import { AppLoading, Font } from 'expo';
 import { TextFa } from './TextFa'
 import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
+import { connect } from "react-redux";
 import { EventActions} from '../Actions/EventActions'
+import  { vote, unVote } from '../Actions';
+
+
 
 const WindowSize = {width: Dimensions.get('window').width, height: Dimensions.get('window').height}
 
-class EventCard extends React.Component
+class EventCardComponent extends React.Component
 {
     constructor(props) {
         super(props);
         this.state = {
             id: this.props.id,
             isChosen: false,
-            backgroundColor:'#BC1D39'
+            backgroundColor:'#BC1D39',
+            onPoll: this.props.onPoll
         };
       }
     
-
+    
 
     render()
     {
         return(
             
             <TouchableOpacity style={{...styles.container, backgroundColor: this.state.backgroundColor}} onPress = {() => {
-                if(!this.state.isChosen)
+                if(!this.state.onPoll)
                 {
-                    EventActions.SelectEvent(this.state.id);
-                    this.setState({isChosen: true});
-                    this.setState({backgroundColor:'#EF5F7F'})
+                    if(!this.state.isChosen)
+                    {
+                        EventActions.SelectEvent(this.state.id);
+                        this.setState({isChosen: true});
+                        this.setState({backgroundColor:'#EF5F7F'})
+                    }
+                    else
+                    {
+                        this.setState({isChosen: false});
+                        this.setState({backgroundColor:'#BC1D39'})
+                    }
                 }
                 else
                 {
-                    this.setState({isChosen: false});
-                    this.setState({backgroundColor:'#BC1D39'})
+                    if(!this.state.isChosen && this.props.votedEvent == null)
+                    {
+                        this.props.vote({id: this.state.id})
+                        this.setState({isChosen: true});
+                        this.setState({backgroundColor:'#EF5F7F'})
+                    }
+                    else if(this.state.isChosen)
+                    {
+                        this.props.unVote()
+                        this.setState({isChosen: false});
+                        this.setState({backgroundColor:'#BC1D39'})
+                    }
+                    
                 }
-               
                // this.props.onPress();
             }}>
                 <Image style = {styles.Image}  source={require('../../assets/images/EventCard.png')} />
@@ -75,4 +98,13 @@ const styles = StyleSheet.create({
     
   });
 
-export {EventCard};
+  const MapStateToProps = (state, ownProps) => {
+    return {
+      poll:  state.Poll.loadedPoll,
+      votedEvent: state.Poll.votedEvent
+    };
+  };
+  
+  const EventCard = connect(MapStateToProps, {vote, unVote})(EventCardComponent);
+
+  export {EventCard};

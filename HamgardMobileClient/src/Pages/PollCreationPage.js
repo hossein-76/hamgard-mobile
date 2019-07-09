@@ -1,7 +1,7 @@
 import React from 'react';
 import {Dimensions, TextInput, StyleSheet,TouchableHighlight, ScrollView,
-FlatList, View, Text, Image } from 'react-native';
-import { Container, Header, Content, Button  } from 'native-base';
+FlatList, View, Text, Image,} from 'react-native';
+import { Container, Header, Content, Button, Textarea, Form, Item, Input,  } from 'native-base';
 import { TextFa} from '../Components/TextFa';
 import { EventCard } from '../Components/EventCard';
 import { PollListItem} from '../Components/PollListItem';
@@ -19,7 +19,8 @@ class PollCreationScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chosenEvents: []
+      pollTitle:"",
+      timePlan:""
     };
   }
 
@@ -41,25 +42,77 @@ class PollCreationScreen extends React.Component {
     renderItem = (List) => {
       return (
         <View style = {{margin : 5, alignItems:'flex-start'}}>
-          <EventCard id = {List.item.id} title = {List.item.title} category = {List.item.category}/>
+          <EventCard onPoll = {false} id = {List.item.id} title = {List.item.title} category = {List.item.category}/>
         </View>
       );
     };
 
     render() {
       return (
-        <View style={{width: WindowSize.width, height: WindowSize.height}}>
-          <View style = {styles.buttonContainer}>
-
-          </View>
-          <View style = {styles.container}>
-              <FlatList numColumns = {2}
-                  style={styles.flatList}
-                  data={this.props.events}
-                  extraData={this.state}
-                  renderItem={this.renderItem}
-                  keyExtractor={this.extractKey}
+        <View
+          style={{
+            width: WindowSize.width,
+            height: WindowSize.height,
+            alignItems: "stretch"
+          }}
+        >
+          <View style={styles.topContainer}>
+            <View style = {{flexDirection:'column',width : '80%'}}>
+              <Item
+                regular
+                style={{
+                  padding: "1%",
+                  marginTop: "1%",
+                  alignItems: "center",
+                  borderRadius: 10,
+                  backgroundColor: "#dddddd",
+                  width: "100%",
+                }}
+              >
+                <Input
+                  onChangeText={text =>
+                    this.setState({ pollTitle: text })
+                  }
+                  style={{ fontSize: 24}}
+                  placeholder="عنوان نظرسنجی"
                 />
+              </Item>
+              <Item
+                regular
+                style={{
+                  padding: "1%",
+                  marginTop: "1%",
+                  alignItems: "center",
+                  borderRadius: 10,
+                  backgroundColor: "#dddddd",
+                  width: "100%",
+                  borderWidth: 5
+                }}
+              >
+                <Input
+                  onChangeText={text => this.setState({ timePlan: text })}
+                  style={{ fontSize: 24 }}
+                  placeholder="تاریخ و ساعت"
+                />
+              </Item>
+            </View>
+            <Button style={styles.button}  onPress = {() => {
+                    
+                  }}>
+              <TextFa style={{ color: "#ffffff", fontSize: 20 }}>
+                تایید
+              </TextFa>
+            </Button>
+          </View>
+          <View style={styles.container}>
+            <FlatList
+              numColumns={2}
+              style={styles.flatList}
+              data={this.props.events}
+              extraData={this.state}
+              renderItem={this.renderItem}
+              keyExtractor={this.extractKey}
+            />
           </View>
         </View>
       );
@@ -75,8 +128,11 @@ class PollCreationScreen extends React.Component {
     padding: '1%',
     backgroundColor: '#ffffff'
   },
-    ChosenContainer:{
-
+    topContainer:{
+      margin:'2%',
+      flexDirection: 'row',
+      alignItems:'stretch',
+      justifyContent:'center'
     },
     mainDetailsContainer: {
         flex:1,
@@ -119,11 +175,11 @@ class PollCreationScreen extends React.Component {
   button: {
     backgroundColor: '#BC1D39',
     borderColor: '#48BBEC',
-    height: WindowSize.width * 0.05,
-    width: WindowSize.width * 0.05,
+    height: '50%',
+    width: '15%',
     marginBottom: 10,
     borderRadius:5,
-    margin: '1%',
+    margin: '2%',
     alignSelf: 'stretch',
     justifyContent: 'center'
   },

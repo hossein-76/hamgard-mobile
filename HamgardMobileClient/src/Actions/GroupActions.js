@@ -3,7 +3,7 @@ import JWTController from '../Controllers/AuthenticationController';
 import {GET_GROUPS} from './Types';
 
 
-const GetGroups = () => async (dispatch, getState) => 
+export const GetGroups = () => async (dispatch, getState) => 
 {
     new Promise((resolve, reject) => {
         const url = 'groups/';
@@ -29,7 +29,7 @@ const GetGroups = () => async (dispatch, getState) =>
     
 }   
 
-const LoadGroup =  (GroupID) => async (dispatch, getState) => 
+export const LoadGroup =  (GroupID) => async (dispatch, getState) => 
 {
     new Promise((resolve, reject) => {
         const url = 'groups/';
@@ -56,8 +56,29 @@ const LoadGroup =  (GroupID) => async (dispatch, getState) =>
     
 }   
 
-const GroupActions = {
-    GetGroups,
-    LoadGroup,
-};
-export { GroupActions };
+export const CreateGroup = (groupData) => async (dispatch, getState) => 
+{
+    new Promise((resolve, reject) => {
+        const url = 'groups/';
+
+        const options = {
+            method: 'GET',
+            group_id: GroupID
+        };
+
+        const token = JWTController.GetUserToken();
+
+        APIRequest(options, url, token)
+            .then((response) => {
+                dispatch({
+                    type: GET_GROUPS,
+                    payload: groupData
+                });
+                resolve(response);
+            })
+            .catch((error) => {
+                reject({ error });
+            });
+    })
+}
+

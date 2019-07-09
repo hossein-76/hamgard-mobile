@@ -1,7 +1,7 @@
 import { GET_EVENTS, SELECT_EVENT, UNSELECT_EVENT } from "./Types";
 import {APIRequest} from '../Services/APIService'
 
-const getEvents = () => async (dispatch, getState) => {
+export const getEvents = () => async (dispatch, getState) => {
   new Promise((resolve, reject) => {
     const url = "events/"; //need change
 
@@ -25,7 +25,7 @@ const getEvents = () => async (dispatch, getState) => {
   });
 };
 
-const SelectEvent = (eventID) => async (dispatch, getState) =>
+export const SelectEvent = (eventID) => async (dispatch, getState) =>
     {
         alert('an');
         dispatch({
@@ -48,8 +48,4 @@ const SelectEvent = (eventID) => async (dispatch, getState) =>
      
   });
 
-  const EventActions = {
-    getEvents,
-    SelectEvent,
-};
-export { EventActions };
+
