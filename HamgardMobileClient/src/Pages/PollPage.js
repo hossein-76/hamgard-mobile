@@ -8,6 +8,7 @@ import { PollListItem} from '../Components/PollListItem';
 import { connect } from "react-redux";
 import { EventCard} from '../Components/EventCard'
 import HeaderStyles from '../Styles/Headers';
+import {SendVote} from '../Actions'
 
 const tempData = [];
 
@@ -52,11 +53,12 @@ class PollScreen extends React.Component {
         }}
       >
         <View style={styles.topContainer}>
-          <View style = {{flexDirection:'column',width : '80%'}}>
-           
-          </View>
+           <TextFa style={{fontSize:24}}>{this.props.poll.question}</TextFa>
           <Button style={styles.button} onPress = {() => {
-                  
+                  if(this.props.choices != null)
+                  {
+                    this.props.SendVote(this.props.group.id, this.props.poll.id, [this.props.choices.id])
+                  }
                 }}>  
             <TextFa style={{ color: "#ffffff", fontSize: 20 }}>
               تایید
@@ -67,7 +69,7 @@ class PollScreen extends React.Component {
           <FlatList
             numColumns={2}
             style={styles.flatList}
-            data={this.props.poll.events}
+            data={this.props.poll.choices}
             extraData={this.state}
             renderItem={this.renderItem}
             keyExtractor={this.extractKey}
@@ -86,6 +88,13 @@ class PollScreen extends React.Component {
     justifyContent: 'flex-start',
     padding: '1%',
     backgroundColor: '#ffffff'
+  },
+  topContainer: {
+    margin: "2%",
+    height: "10%",
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "space-between"
   },
     mainDetailsContainer: {
         flex:1,
@@ -133,8 +142,8 @@ class PollScreen extends React.Component {
   button: {
     backgroundColor: '#BC1D39',
     borderColor: '#48BBEC',
-    height: WindowSize.width * 0.05,
-    width: WindowSize.width * 0.05,
+    height: WindowSize.width * 0.1,
+    width: WindowSize.width * 0.1,
     marginBottom: 10,
     borderRadius:5,
     margin: '1%',
@@ -152,7 +161,9 @@ class PollScreen extends React.Component {
 const MapStateToProps = (state, ownProps) => {
     return {
       poll:  state.Poll.loadedPoll,
+      group: state.Group.loadedGroup,
+      choices: state.Poll.votedEvent
     };
   };
   
-  export default connect(MapStateToProps)(PollScreen);
+  export default connect(MapStateToProps, {SendVote})(PollScreen);

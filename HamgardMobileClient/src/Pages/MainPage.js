@@ -3,6 +3,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableHighlight,
+  AsyncStorage,
   View,
   Text,
   Image,
@@ -15,12 +16,13 @@ import JWTController from "../Controllers/AuthenticationController";
 import ButtonStyles from "../Styles/Buttons";
 import HeaderStyles from "../Styles/Headers";
 import { TextFa } from "../Components/TextFa";
+import {GetGroups} from "../Actions"
 import { HeaderTitle } from "../Components/HeaderTitle";
 import styles from "../Styles/Headers";
 import { GroupListItem } from "../Components/GroupListItem";
 import { connect } from "react-redux";
 
-
+var STORAGE_KEY = 'id_token';
 
 const extractKey = ({ key, text }) => key;
 
@@ -33,6 +35,11 @@ class MainScreen extends React.Component {
       UserNameInputValid: false,
       PassWordInputValid: false
     };
+  }
+
+  componentDidMount() 
+  {
+    this.props.GetGroups()
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -67,27 +74,28 @@ class MainScreen extends React.Component {
 
   //not completed
   async logOut() {
-    var success = false;
-    var url = "http://172.18.218.231:8000/user/api/logout/";
-    const userToken = JWTController.GetUserToken();
-
-    fetch(url, {
+    let success = false;
+    var url = "http://192.168.43.209:8000/user/api/v1/customer_logout/";
+    let userToken = await AsyncStorage.getItem(STORAGE_KEY);
+    
+  await fetch(url, {
       method: "POST",
       headers: {
-        token: "token " + userToken
+        authorization: userToken
       }
     })
-      .then(res => res.json())
-      .then(responseData => JWTController.DeleteToken())
-      .then(response => {
-        console.log("Success:", JSON.stringify(response));
-        success = true;
-      })
+      .then(res => {res.json();
+                 console.log("Success:", JSON.stringify(res.status));
+                 if(JSON.stringify(res.status) == 200)
+                 {
+                    success = true;
+                 }
+              })
       .catch(error => console.log("Error:", error));
-
     if (success) {
-      JWTController.DeleteToken();
-      this.props.navigation.navigate("Authentication");
+      JWTController.DeleteToken()
+      this.props.navigation.goBack();
+      this.props.navigation.navigate('Authentication');
     }
   }
 
@@ -99,7 +107,8 @@ class MainScreen extends React.Component {
     return (
       <GroupListItem
         name={List.item.name}
-        creator={List.item.creator}
+        creator={List.item.admin_username}
+        id={List.item.id}
         onPress={() => {this.props.navigation.navigate('Group')}}
       />
     );
@@ -145,6 +154,7 @@ class MainScreen extends React.Component {
                 alignItems: "stretch"
               }}
             >
+              <View style = {{flex: 9}}>
                 <ScrollView style={{
                   flex:9,
                   width: "100%",
@@ -158,6 +168,7 @@ class MainScreen extends React.Component {
                     keyExtractor={this.extractKey}
                   />
                 </ScrollView>
+              </View>
               <View
                 style={{
                   flex:1,
@@ -203,6 +214,7 @@ const Styles = StyleSheet.create({
   flatList: {
     flex: 1,
     backgroundColor: "#cccccc",
+    height: '100%',
     marginTop: "2%",
     padding: "2%",
     borderRadius: 10
@@ -233,4 +245,4 @@ const MapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(MapStateToProps)(MainScreen);
+export default connect(MapStateToProps, {GetGroups})(MainScreen);

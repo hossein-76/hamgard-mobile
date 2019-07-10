@@ -1,24 +1,32 @@
 import {APIRequest} from '../Services/APIService';
+import {AsyncStorage,} from 'react-native'
 import JWTController from '../Controllers/AuthenticationController';
-import {GET_GROUPS, CREATE_GROUP} from './Types';
+import {GET_GROUPS, CREATE_GROUP, LOAD_GROUP} from './Types';
 
 
 export const GetGroups = () => async (dispatch, getState) => 
 {
     new Promise((resolve, reject) => {
         const url = 'groups/';
-
+        const urlFirst = 'group/'
         const options = {
             method: 'GET'
         };
 
-        const token = JWTController.GetUserToken();
 
-        APIRequest(options, url, token)
+        APIRequest(options,urlFirst, url, true)
+        .then((data) => data.json())
             .then((data) => {
+                let tmp = [];
+                for(let i = 0 ; i < data.length ; i++)
+                {
+                    tmp.push({key:"" + i, ...data[i]})
+                }
+
+                
                 dispatch({
                     type: GET_GROUPS,
-                    payload: data
+                    payload: tmp
                 });
                 resolve(data);
             })
@@ -31,20 +39,21 @@ export const GetGroups = () => async (dispatch, getState) =>
 
 export const LoadGroup =  (GroupID) => async (dispatch, getState) => 
 {
-    new Promise((resolve, reject) => {
-        const url = 'groups/';
-
+   return new Promise((resolve, reject) => {
+        const url = 'group/';
+        const urlFirst = 'group/'
+        const GID = {group_id: GroupID}
         const options = {
-            method: 'GET',
-            group_id: GroupID
+            method: 'POST',
+            body: JSON.stringify(GID)
         };
 
-        const token = JWTController.GetUserToken();
 
-        APIRequest(options, url, token)
+        APIRequest(options,urlFirst, url, true)
+        .then((data) => data.json())
             .then((data) => {
                 dispatch({
-                    type: GET_GROUPS,
+                    type: LOAD_GROUP,
                     payload: data
                 });
                 resolve(data);
@@ -58,20 +67,19 @@ export const LoadGroup =  (GroupID) => async (dispatch, getState) =>
 
 export const CreateGroup = (groupData) => async (dispatch, getState) => 
 {
-    new Promise((resolve, reject) => {
-        const url = 'groups/';
-
+   return  new Promise((resolve, reject) => {
+        const url = 'create_group/';
+        const urlFirst = 'group/'
         const options = {
-            method: 'GET',
-            group_id: GroupID
+            method: 'POST',
+            body: JSON.stringify(groupData)
         };
 
-        const token = JWTController.GetUserToken();
-
-        APIRequest(options, url, token)
+        APIRequest(options, urlFirst, url, true)
             .then((response) => {
+               
                 dispatch({
-                    type: CREATE_GROUPS,
+                    type: CREATE_GROUP,
                     payload: groupData
                 });
                 resolve(response);
