@@ -3,19 +3,25 @@ import {APIRequest} from '../Services/APIService'
 
 export const getEvents = () => async (dispatch, getState) => {
   new Promise((resolve, reject) => {
-    const url = "events/"; //need change
-
+    const url = "geteventsandplaces/"; //need change
+    const urlFirst = 'event/'
     const options = {
       method: "GET"
     };
 
-    const token = JWTController.GetUserToken();
 
-    APIRequest(options, url, token)
+    APIRequest(options, urlFirst, url, true)
+    .then((data) => data.json())
       .then(data => {
+
+        let tmp = [];
+        for(let i = 0 ; i < data.length ; i++)
+        {
+            tmp.push({key:"" + i, ...data[i]})
+        }
         dispatch({
           type: GET_EVENTS,
-          payload: data
+          payload: tmp
         });
         resolve(data);
       })
@@ -25,27 +31,20 @@ export const getEvents = () => async (dispatch, getState) => {
   });
 };
 
-export const SelectEvent = (eventID) => async (dispatch, getState) =>
-    {
-        alert('an');
-        dispatch({
+export const SelectEvent = (selectedItem) =>
+        ({
           type: SELECT_EVENT,
-          payload: eventID
+          payload: selectedItem
         });
-        
-     
-    };
 
-  const UnselectEvent = (eventID) => async (dispatch, getState) =>
-  new Promise((resolve, reject) => {
-   
-    
-        dispatch({
+
+export  const UnselectEvent = (item) =>
+        ({
           type: UNSELECT_EVENT,
-          payload: eventID
+          payload: item
         });
         
      
-  });
+  
 
 

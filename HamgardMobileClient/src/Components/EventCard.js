@@ -5,8 +5,7 @@ import { AppLoading, Font } from 'expo';
 import { TextFa } from './TextFa'
 import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
 import { connect } from "react-redux";
-import { EventActions} from '../Actions/EventActions'
-import  { vote, unVote } from '../Actions';
+import  { vote, unVote, SelectEvent, UnselectEvent } from '../Actions';
 
 
 
@@ -20,7 +19,8 @@ class EventCardComponent extends React.Component
             id: this.props.id,
             isChosen: false,
             backgroundColor:'#BC1D39',
-            onPoll: this.props.onPoll
+            onPoll: this.props.onPoll,
+            type: this.props.type
         };
       }
     
@@ -35,12 +35,13 @@ class EventCardComponent extends React.Component
                 {
                     if(!this.state.isChosen)
                     {
-                        EventActions.SelectEvent(this.state.id);
+                        this.props.SelectEvent({id: this.props.id, type: this.props.type});
                         this.setState({isChosen: true});
                         this.setState({backgroundColor:'#EF5F7F'})
                     }
                     else
                     {
+                        this.props.UnselectEvent({id: this.props.id, type: this.props.type});
                         this.setState({isChosen: false});
                         this.setState({backgroundColor:'#BC1D39'})
                     }
@@ -105,6 +106,6 @@ const styles = StyleSheet.create({
     };
   };
   
-  const EventCard = connect(MapStateToProps, {vote, unVote})(EventCardComponent);
+  const EventCard = connect(MapStateToProps, {vote, unVote, SelectEvent, UnselectEvent})(EventCardComponent);
 
   export {EventCard};

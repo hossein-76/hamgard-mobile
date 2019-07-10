@@ -2,16 +2,9 @@ import { GET_EVENTS, SELECT_EVENT, UNSELECT_EVENT } from '../Actions/Types'
 
 
 const initialState = {
-    events : [{key:"",ID:"1", title: "Title", category:"Category"},
-                {key:"",ID:"2", title: "Title", category:"Category"},
-                {key:"",ID:"3", title: "Title", category:"Category"},
-                {key:"",ID:"4", title: "Title", category:"Category"},
-                {key:"",ID:"5", title: "Title", category:"Category"},
-                {key:"",ID:"6", title: "Title", category:"Category"},
-                {key:"",ID:"7", title: "Title", category:"Category"},
-                {key:"",ID:"8", title: "Title", category:"Category"},
-                {key:"",ID:"9", title: "Title", category:"Category"},],
-    chosen : []
+    events : [],
+    selectedEvents : [],
+    selectedPlaces : [],
 }
 
 export const EventReducer = (state = initialState, action) => {
@@ -19,24 +12,45 @@ export const EventReducer = (state = initialState, action) => {
     {
         case GET_EVENTS:
             return {
-                ...action.payload
+                ...state,
+                events: [...action.payload]
             }
         case SELECT_EVENT:
         {
-            let tmp = [...state.chosen];
-            tmp.push(action.payload);
-            alert(tmp);
+            let tmpEvents = [...state.selectedEvents];
+            let tmpPlaces = [...state.selectedPlaces];
+            if(action.payload.type == 'event')
+            {
+                tmpEvents.push(action.payload.id);
+            }
+            if(action.payload.type == 'place')
+            {
+                tmpPlaces.push(action.payload.id);
+            }
             return {
                 ...state,
-                chosen: tmp
+                selectedEvents: tmpEvents,
+                selectedPlaces: tmpPlaces
             }
         }
+
+
         case UNSELECT_EVENT: {
-            let tmp = [...state.chosen];
-            tmp.filter(x => x != action.payload);
+            let tmpEvents = [...state.selectedEvents];
+            let tmpPlaces = [...state.selectedPlaces];
+            if(action.payload.type == 'event')
+            {
+                tmpEvents = tmpEvents.filter(x => x != action.payload.id );
+            }
+            if(action.payload.type == 'place')
+            {
+                tmpPlaces = tmpPlaces.filter(x => x != action.payload.id );
+            }
+            
             return{
                 ...state,
-                chosen: tmp
+                selectedEvents: tmpEvents,
+                selectedPlaces: tmpPlaces
             }
         }
         default: {
