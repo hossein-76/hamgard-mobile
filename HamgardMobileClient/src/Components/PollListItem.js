@@ -3,11 +3,13 @@ import {Dimensions, TextInput, StyleSheet,TouchableHighlight, View, Text, Image,
 import { Container, Header, Content, Button  } from 'native-base';
 import { AppLoading, Font } from 'expo';
 import { TextFa } from './TextFa'
+import { connect} from 'react-redux'
 import { ForceTouchGestureHandler } from 'react-native-gesture-handler';
+import { getPoll } from '../Actions'
 
 const WindowSize = {width: Dimensions.get('window').width, height: Dimensions.get('window').height}
 
-class PollListItem extends React.Component
+class PollListItemComponent extends React.Component
 {
     constructor(props) {
         super(props);
@@ -23,7 +25,7 @@ class PollListItem extends React.Component
         return(
             
             <TouchableOpacity style={styles.container} onPress = {() => {
-                this.props.id;
+                this.props.getPoll(this.props.group.id,  this.props.id);
                 this.props.onPress();
             }}>
                 
@@ -66,5 +68,16 @@ const styles = StyleSheet.create({
       },
     
   });
+
+  const MapStateToProps = (state, ownProps) => {
+    return {
+      poll:  state.Poll.loadedPoll,
+      votedEvent: state.Poll.votedEvent,
+      group: state.Group.loadedGroup
+    };
+  };
+  
+  const PollListItem = connect(MapStateToProps, {getPoll})(PollListItemComponent);
+
 
 export {PollListItem};

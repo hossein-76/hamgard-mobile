@@ -50,7 +50,7 @@ class EventCardComponent extends React.Component
                 {
                     if(!this.state.isChosen && this.props.votedEvent == null)
                     {
-                        this.props.vote({id: this.state.id})
+                        this.props.vote({id: this.props.id})
                         this.setState({isChosen: true});
                         this.setState({backgroundColor:'#EF5F7F'})
                     }

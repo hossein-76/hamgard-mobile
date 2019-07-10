@@ -52,6 +52,29 @@ class GroupMainScreen extends React.Component {
     );
   };
 
+  CheckIfCreator()
+  {
+    if(this.props.group.is_creator)
+    {
+      return(
+        <Button
+              style={styles.button}
+              onPress={() => {
+                this.props.getEvents();
+                this.props.navigation.navigate("PollCreation");
+              }}
+            >
+              <TextFa style={{ fontSize: 18, color: "#ffffff" }}>+</TextFa>
+            </Button>
+      )
+      
+    }
+    else
+    {
+      return(null)
+    }
+  }
+
   pollsRenderItem = List => {
     return (
       <View style={{ margin: 5 }}>
@@ -76,15 +99,7 @@ class GroupMainScreen extends React.Component {
         <View style={styles.pollListContainer}>
           <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <TextFa style={{ fontSize: 20 }}>نظر سنجی ها</TextFa>
-            <Button
-              style={styles.button}
-              onPress={() => {
-                this.props.getEvents();
-                this.props.navigation.navigate("PollCreation");
-              }}
-            >
-              <TextFa style={{ fontSize: 18, color: "#ffffff" }}>+</TextFa>
-            </Button>
+            {this.CheckIfCreator()}
           </View>
           <FlatList
             style={styles.pollFlatList}
@@ -113,9 +128,6 @@ class GroupMainScreen extends React.Component {
               }}
             >
               <TextFa style={{ fontSize: 20 }}>اعضا</TextFa>
-              <Button style={styles.button}>
-                <TextFa style={{ fontSize: 18, color: "#ffffff" }}>+</TextFa>
-              </Button>
             </View>
           </View>
           <FlatList
